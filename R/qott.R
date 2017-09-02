@@ -139,7 +139,7 @@ F.Y1 <- function(ytmin1, y.seq, Y1t, Y0tmin1,  h=NULL, method="level") {
     }
     X <- cbind(1, Y0tmin1-ytmin1)
     if (is.null(h)) {
-        h <- sd(Y0tmin1)*n^(-1/6) ## check that this is right
+        h <- 1.06*sd(Y0tmin1)*n^(-1/4) ## check that this is right
     }
     ##h <- h/5
     K <- diag(k(Y0tmin1 - ytmin1,h), n, n)
@@ -194,7 +194,7 @@ F.Y0 <- function(ytmin1, y.seq, Y0tmin1, Y0tmin2, Y0tqteobj, h=NULL,
     }
     X <- cbind(1, Y0tmin2-xtmin1)
     if (is.null(h)) {
-        h <- sd(Y0tmin2)*n^(-1/6) ## check that this is right
+        h <- 1.06*sd(Y0tmin2)*n^(-1/4) ## check that this is right
     }
     ##h <- h/5
     K <- diag(k(Y0tmin2-xtmin1, h), n, n)
@@ -413,6 +413,22 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @param F.y0 (optional) pre-computed distribution of counterfactual untreated outcomes for the treated group
 #' @param F.y1 (optional) pre-computed distribution of treated outcomes for the treated group
 #'
+#' @examples
+#' data(displacements)
+#' delt.seq <- seq(-4,4,length.out=50)
+#' y.seq <- seq(6.5,13,length.out=50)
+#' Y1t <- subset(displacements, year==2011 & treat==1)
+#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)
+#' Y0tmin2 <- subset(displacements, year==2003 & treat==1)
+#' cc <- qte::CiC(learn ~ treat,
+#'          t=2011, tmin1=2007, tname="year",
+#'          idname="id", panel=TRUE, data=displacements,
+#'          probs=seq(.05,.95,.01),se=FALSE)
+#' cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level")
+#' cb
+#' ggCSABounds(cb)
+#'
+#' @import stats
 #' @importFrom pbapply pblapply
 #'
 #' @return csaboundsobj

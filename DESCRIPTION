@@ -3,11 +3,13 @@ Title: Bounds on Distributional Treatment Effect Parameters
 Version: 1.0.0
 Authors@R: person("Brantly", "Callaway", email = "brantly.callaway@temple.edu", role = c("aut", "cre"))
 Description:  The joint distribution of potential outcomes is not typically identified under standard identifying assumptions such as selection on observables or even when individuals are randomly assigned to being treated.  This package contains methods for obtaining tight bounds on distributional treatment effect parameters when panel data is available and under a Copula Stability Assumption as in Callaway (2017).
-Imports: ggplot2,
+Imports: stats,
+    ggplot2,
     BMisc,
     pbapply,
     progress
 Depends: R (>= 3.0)
+Suggests: qte
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

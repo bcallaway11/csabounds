@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-vignette">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -37,6 +37,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">News</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -48,22 +51,44 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
-    The joint distribution of potential outcomes is not typically identified under standard identifying assumptions such as selection on observables or even when individuals are randomly assigned to being treated.  This package contains methods for obtaining tight bounds on distributional treatment effect parameters when panel data is available and under a Copula Stability Assumption as in Callaway (2017).
+  <div class="col-md-9">
+    
+
+    
+    
+<div class="contents">
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<div id="csabounds" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#csabounds" class="anchor"></a>csabounds</h1></div>
+<p>The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes – the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available. Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption. More details about the method can be found in Callaway (2017).</p>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>You can install csabounds from github with:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+devtools::<span class="kw">install_github</span>(<span class="st">"bcallaway11/csabounds"</span>)</code></pre></div>
+</div>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## basic example code</code></pre></div>
+</div>
+</div>
+</div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
-    <h2>License</h2>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>License</h2>
+<p><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Brantly Callaway <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
-</ul>
 </div>
+
 </div>
 
 

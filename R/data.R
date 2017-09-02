@@ -1,0 +1,12 @@
+#' Job displacement data from the NLSY
+#'
+#' A dataset with 266 observations of displaced and non-displaced workers during the great recession and their earnings in 2003, 2007, and 2011.  All displaced workers in the sample are displaced in either 2008 or 2009 so 2003 and 2007 are pre-displacement periods.
+#' @format A data frame with 798 rows 3 columns:
+#' \describe{
+#'   \item{id}{individual identifier}
+#'   \item{treat}{1 for displaced individuals, 0 otherwise}
+#'   \item{year}{the year of earnings}
+#'   \item{learn}{the log of earnings in year t for individual i}
+#' }
+#' @source subset of NLSY 1979 data used in Callaway (2017)
+"displacements"
