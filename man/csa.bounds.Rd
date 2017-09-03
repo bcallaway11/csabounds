@@ -45,13 +45,14 @@ Compute bounds on the distribution and quantile of the
 data(displacements)
 delt.seq <- seq(-4,4,length.out=50)
 y.seq <- seq(6.5,13,length.out=50)
-Y1t <- subset(displacements, year==2011 & treat==1)
-Y0tmin1 <- subset(displacements, year==2007 & treat==1)
-Y0tmin2 <- subset(displacements, year==2003 & treat==1)
+Y1t <- subset(displacements, year==2011 & treat==1)$learn
+Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
 cc <- qte::CiC(learn ~ treat,
-         t=2011, tmin1=2007, tname="year",
-         idname="id", panel=TRUE, data=displacements,
-         probs=seq(.05,.95,.01),se=FALSE)
+               t=2011, tmin1=2007, tname="year",
+               idname="id", panel=TRUE, data=displacements,
+               probs=seq(.05,.95,.01),se=FALSE)
+cc$F.treated.tmin2 <- ecdf(Y0tmin2)
 cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level")
 cb
 ggCSABounds(cb)

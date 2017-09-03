@@ -417,14 +417,16 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' data(displacements)
 #' delt.seq <- seq(-4,4,length.out=50)
 #' y.seq <- seq(6.5,13,length.out=50)
-#' Y1t <- subset(displacements, year==2011 & treat==1)
-#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)
-#' Y0tmin2 <- subset(displacements, year==2003 & treat==1)
+#' Y1t <- subset(displacements, year==2011 & treat==1)$learn
+#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+#' Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
 #' cc <- qte::CiC(learn ~ treat,
-#'          t=2011, tmin1=2007, tname="year",
-#'          idname="id", panel=TRUE, data=displacements,
-#'          probs=seq(.05,.95,.01),se=FALSE)
-#' cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level")
+#'                t=2011, tmin1=2007, tname="year",
+#'                idname="id", panel=TRUE, data=displacements,
+#'                probs=seq(.05,.95,.01),se=FALSE)
+#' cc$F.treated.tmin2 <- ecdf(Y0tmin2)
+#' cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level",
+#'       cl=1)
 #' cb
 #' ggCSABounds(cb)
 #'
@@ -436,7 +438,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @export
 csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
                        F.y0=NULL, F.y1=NULL, h=NULL,
-                       method=c("level","rank")) {
+                       method=c("level","rank"), cl=1) {
 
     n <- length(Y1t)
     
@@ -461,7 +463,7 @@ csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
     if (is.null(F.y1)) {
         F.y1 <- pbapply::pblapply(ytmin1.seq, F.Y1, y.seq,
                                   Y1t, Y0tmin1, h=h, method=method,
-                                  cl=8)
+                                  cl=cl)
             ##parallel::mclapply(ytmin1.seq, F.Y1, y.seq,
                 ##                   Y1t, Y0tmin1, h=h, method=method,
                 ##                   mc.cores=8)
@@ -471,7 +473,7 @@ csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
     if (is.null(F.y0)) {
         F.y0 <- pbapply::pblapply(ytmin1.seq, F.Y0, y.seq, Y0tmin1,
                                   Y0tmin2, Y0tqteobj, h=h, method=method,
-                                  cl=8)
+                                  cl=cl)
             ##parallel::mclapply(ytmin1.seq, F.Y0, y.seq, Y0tmin1, Y0tmin2,
                   ##                 Y0tqteobj, h=h, method=method, mc.cores=8)
     }
@@ -489,7 +491,7 @@ csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
     print("Step 3 of 4: Calculating lower bound")
     l.vec <- pbapply::pblapply(delt.seq, l, y.seq, ytmin1.seq,
                                Y1t, Y0tmin1r, Y0tmin2, Y0tqteobj,
-                               F.y1, F.y0, cl=8)
+                               F.y1, F.y0, cl=cl)
         ##parallel::mclapply(delt.seq, l, y.seq, ytmin1.seq,
              ##                   Y1t, Y0tmin1r, Y0tmin2, Y0tqteobj, F.y1, F.y0,
              ##                   mc.cores=8) ##TODO
@@ -498,7 +500,7 @@ csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
     print("Step 4 of 4: Calculating upper bound")
     u.vec <- pbapply::pblapply(delt.seq, u, y.seq, ytmin1.seq,
                                Y1t, Y0tmin1r, Y0tmin2, Y0tqteobj,
-                               F.y1, F.y0, cl=8)
+                               F.y1, F.y0, cl=cl)
         ##parallel::mclapply(delt.seq, u, y.seq, ytmin1.seq,
              ##                   Y1t, Y0tmin1r, Y0tmin2, Y0tqteobj,
              ##                   F.y1, F.y0, mc.cores=8) ##TODO
