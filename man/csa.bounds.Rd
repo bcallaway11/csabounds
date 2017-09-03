@@ -4,20 +4,29 @@
 \alias{csa.bounds}
 \title{csa.bounds}
 \usage{
-csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj, F.y0 = NULL,
-  F.y1 = NULL, h = NULL, method = c("level", "rank"), cl = 1)
+csa.bounds(formla, t, tmin1, tmin2, tname, idname, data, delt.seq, y.seq,
+  Y0tqteobj, F.y0 = NULL, F.y1 = NULL, h = NULL, method = c("level",
+  "rank"), cl = 1)
 }
 \arguments{
+\item{formla}{outcomevar ~ treatmentvar}
+
+\item{t}{the 3rd period}
+
+\item{tmin1}{the 2nd period}
+
+\item{tmin2}{the 1st period}
+
+\item{tname}{the name of the column containing periods}
+
+\item{idname}{the name of the columen containig ids}
+
+\item{data}{a panel data frame}
+
 \item{delt.seq}{the possible values to compute bounds on the distribution
 of the treatment effect for}
 
 \item{y.seq}{the possible values for y to take}
-
-\item{Y1t}{vector of outcomes for the treated group in period t}
-
-\item{Y0tmin1}{vector of outcomes for the treated group in period t-1}
-
-\item{Y0tmin2}{vector of outcomes for the treated group in period t-2}
 
 \item{Y0tqteobj}{a qte object for obtaining the counterfactual distribution
 of untreated potential outcomes for the treated group in period t}
@@ -47,16 +56,14 @@ Compute bounds on the distribution and quantile of the
 data(displacements)
 delt.seq <- seq(-4,4,length.out=50)
 y.seq <- seq(6.5,13,length.out=50)
-Y1t <- subset(displacements, year==2011 & treat==1)$learn
-Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
-Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
 cc <- qte::CiC(learn ~ treat,
                t=2011, tmin1=2007, tname="year",
                idname="id", panel=TRUE, data=displacements,
                probs=seq(.05,.95,.01),se=FALSE)
-cc$F.treated.tmin2 <- ecdf(Y0tmin2)
-cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level",
-      cl=1)
+cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2011 & treat==1)$learn)
+cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
+        displacements, delt.seq, y.seq, cc,
+        method="level", cl=1)
 cb
 ggCSABounds(cb)
 

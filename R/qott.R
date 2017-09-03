@@ -407,6 +407,13 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #'
 #' @inheritParams F.Y0
 #' @inheritParams F.Y1
+#' @param formla outcomevar ~ treatmentvar
+#' @param data a panel data frame
+#' @param t the 3rd period
+#' @param tmin1 the 2nd period
+#' @param tmin2 the 1st period
+#' @param tname the name of the column containing periods
+#' @param idname the name of the columen containig ids
 #' @param delt.seq the possible values to compute bounds on the distribution
 #'  of the treatment effect for
 #' @param y.seq the possible values for y to take
@@ -418,16 +425,14 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' data(displacements)
 #' delt.seq <- seq(-4,4,length.out=50)
 #' y.seq <- seq(6.5,13,length.out=50)
-#' Y1t <- subset(displacements, year==2011 & treat==1)$learn
-#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
-#' Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
 #' cc <- qte::CiC(learn ~ treat,
 #'                t=2011, tmin1=2007, tname="year",
 #'                idname="id", panel=TRUE, data=displacements,
 #'                probs=seq(.05,.95,.01),se=FALSE)
-#' cc$F.treated.tmin2 <- ecdf(Y0tmin2)
-#' cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level",
-#'       cl=1)
+#' cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2011 & treat==1)$learn)
+#' cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
+#'         displacements, delt.seq, y.seq, cc,
+#'         method="level", cl=1)
 #' cb
 #' ggCSABounds(cb)
 #'
@@ -437,10 +442,22 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @return csaboundsobj
 #'
 #' @export
-csa.bounds <- function(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj,
+csa.bounds <- function(formla, t, tmin1, tmin2, tname, idname,
+                       data, delt.seq, y.seq, Y0tqteobj,
                        F.y0=NULL, F.y1=NULL, h=NULL,
                        method=c("level","rank"), cl=1) {
 
+    form <- as.formula(formla)
+    dta <- model.frame(terms(form,data=data),data=data) 
+    colnames(dta) <- c("y","treat")
+    data <- cbind.data.frame(dta,data)
+    data <- subset(data, treat==1) ## get treated group
+
+    Y1t <- data[data[,tname]==t,]$y
+    Y0tmin1 <- data[data[,tname]==tmin1,]$y
+    Y0tmin2 <- data[data[,tname]==tmin2,]$y
+
+    
     n <- length(Y1t)
     
     ## if (method=="rank") {
