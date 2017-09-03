@@ -67,13 +67,55 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install csabounds from github with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools::<span class="kw">install_github</span>(<span class="st">"bcallaway11/csabounds"</span>)</code></pre></div>
+devtools::<span class="kw">install_github</span>(<span class="st">"bcallaway11/csabounds"</span>)
+<span class="co">#&gt; Skipping install of 'csabounds' from a github remote, the SHA1 (c08212fc) has not changed since last install.</span>
+<span class="co">#&gt;   Use `force = TRUE` to force installation</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## basic example code</code></pre></div>
+<p>The following is a simplified example of the heterogeneous effects of job displacement considered in Callaway (2017) using data from the 1979 National Longitudinal Study of Youth.</p>
+<p>A subset of the data is contained in the <code>displacements</code> dataset contained in the package. <code>delt.seq</code> contains a vector of values to compute the distribution of the treatment effect for; that is, <span class="math inline">\(F_{Y_{1t}-Y_{0t}|D_t=1}(\delta)\)</span>. <code>y.seq</code> contains possible values for outcomes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw">library</span>(csabounds)
+ <span class="kw">data</span>(displacements)
+ delt.seq &lt;-<span class="st"> </span><span class="kw">seq</span>(-<span class="dv">4</span>,<span class="dv">4</span>,<span class="dt">length.out=</span><span class="dv">50</span>)
+ y.seq &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">6.5</span>,<span class="dv">13</span>,<span class="dt">length.out=</span><span class="dv">50</span>)</code></pre></div>
+<p>The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, <span class="math inline">\(F_{Y_{0t}|D_t=1}\)</span>. In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the <code>R</code> <code>qte</code> package. The distribution of outcomes for the treated group in period <span class="math inline">\(t-2\)</span> also needs to be set and is not done automatically using the <code><a href="http://www.rdocumentation.org/packages/qte/topics/CiC">qte::CiC</a></code> method.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> cc &lt;-<span class="st"> </span>qte::<span class="kw">CiC</span>(learn ~<span class="st"> </span>treat,
+                <span class="dt">t=</span><span class="dv">2011</span>, <span class="dt">tmin1=</span><span class="dv">2007</span>, <span class="dt">tname=</span><span class="st">"year"</span>,
+                <span class="dt">idname=</span><span class="st">"id"</span>, <span class="dt">panel=</span><span class="ot">TRUE</span>, <span class="dt">data=</span>displacements,
+                <span class="dt">probs=</span><span class="kw">seq</span>(.<span class="dv">05</span>,.<span class="dv">95</span>,.<span class="dv">01</span>),<span class="dt">se=</span><span class="ot">FALSE</span>)
+ cc$F.treated.tmin2 &lt;-<span class="st"> </span><span class="kw">ecdf</span>(<span class="kw">subset</span>(displacements, year==<span class="dv">2011</span> &amp;<span class="st"> </span>treat==<span class="dv">1</span>)$learn)</code></pre></div>
+<p>Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself. (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the  distribution of treated and untreated potential outcomes.) Under the Copula Stability Assumption – see Callaway (2017) – one can construct significantly tighter bounds on the distribution and quantile of the treatment effect. These are calculated and plotted next.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> cb &lt;-<span class="st"> </span><span class="kw"><a href="reference/csa.bounds.html">csa.bounds</a></span>(learn ~<span class="st"> </span>treat, <span class="dv">2011</span>, <span class="dv">2007</span>, <span class="dv">2003</span>, <span class="st">"year"</span>, <span class="st">"id"</span>,
+         displacements, delt.seq, y.seq, cc,
+         <span class="dt">method=</span><span class="st">"level"</span>, <span class="dt">cl=</span><span class="dv">1</span>)
+<span class="co">#&gt; [1] "Step 1 of 4: Calculating conditional distribution of treated potential outcomes..."</span>
+<span class="co">#&gt; [1] "Step 2 of 4: Calculating conditional distribution of untreated potential outcomes..."</span>
+<span class="co">#&gt; [1] "Step 3 of 4: Calculating lower bound"</span>
+<span class="co">#&gt; [1] "Step 4 of 4: Calculating upper bound"</span>
+ cb
+<span class="co">#&gt; $F.l</span>
+<span class="co">#&gt; Empirical CDF </span>
+<span class="co">#&gt; Call: NULL</span>
+<span class="co">#&gt;  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $F.u</span>
+<span class="co">#&gt; Empirical CDF </span>
+<span class="co">#&gt; Call: NULL</span>
+<span class="co">#&gt;  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $F.wd.l</span>
+<span class="co">#&gt; Empirical CDF </span>
+<span class="co">#&gt; Call: NULL</span>
+<span class="co">#&gt;  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $F.wd.u</span>
+<span class="co">#&gt; Empirical CDF </span>
+<span class="co">#&gt; Call: NULL</span>
+<span class="co">#&gt;  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4</span>
+ <span class="kw"><a href="reference/ggCSABounds.html">ggCSABounds</a></span>(cb, <span class="dt">wdbounds=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="README-unnamed-chunk-3-1.png" width="672"></p>
 </div>
 </div>
 </div>

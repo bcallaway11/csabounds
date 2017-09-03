@@ -32,6 +32,7 @@ The following is a simplified example of the heterogeneous effects of job displa
 A subset of the data is contained in the `displacements` dataset contained in the package.  `delt.seq` contains a vector of values to compute the distribution of the treatment effect for; that is, $F_{Y_{1t}-Y_{0t}|D_t=1}(\delta)$.  `y.seq` contains possible values for outcomes.  
 
 ```{r example}
+ library(csabounds)
  data(displacements)
  delt.seq <- seq(-4,4,length.out=50)
  y.seq <- seq(6.5,13,length.out=50)
@@ -46,7 +47,6 @@ The first step is to compute the counterfactual distribution of untreated potent
 ```
 Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself.  (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the \textit{joint} distribution of treated and untreated potential outcomes.)  Under the Copula Stability Assumption -- see Callaway (2017) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect.  These are calculated and plotted next.
 ```{r}
- library(csabounds)
  cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
          displacements, delt.seq, y.seq, cc,
          method="level", cl=1)
