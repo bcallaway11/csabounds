@@ -50,3 +50,15 @@ att-cpo
 compute the Average Treatment Effect on the Treated
  Conditional on the previous outcome (ATT-CPO)
 }
+\examples{
+data(displacements)
+cc <- qte::CiC(learn ~ treat,
+               t=2011, tmin1=2007, tname="year",
+               idname="id", panel=TRUE, data=displacements,
+               probs=seq(.05,.95,.01),se=FALSE)
+ac <- attcpo(learn ~ treat, 2011, 2007, 2003, "year", displacements,
+        "id", cc, method="level", yseqlen=10)
+ac
+ggattcpo(ac)
+
+}

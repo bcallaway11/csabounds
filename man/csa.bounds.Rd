@@ -5,7 +5,7 @@
 \title{csa.bounds}
 \usage{
 csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj, F.y0 = NULL,
-  F.y1 = NULL, h = NULL, method = c("level", "rank"))
+  F.y1 = NULL, h = NULL, method = c("level", "rank"), cl = 1)
 }
 \arguments{
 \item{delt.seq}{the possible values to compute bounds on the distribution
@@ -30,6 +30,8 @@ of untreated potential outcomes for the treated group in period t}
 
 \item{method}{"level" or "rank" determining whether method should
 be used conditional on ytmin1 or the rank of ytmin1}
+
+\item{cl}{(optional) number of multi-cores to use}
 }
 \value{
 csaboundsobj
@@ -53,7 +55,8 @@ cc <- qte::CiC(learn ~ treat,
                idname="id", panel=TRUE, data=displacements,
                probs=seq(.05,.95,.01),se=FALSE)
 cc$F.treated.tmin2 <- ecdf(Y0tmin2)
-cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level")
+cb <- csa.bounds(delt.seq, y.seq, Y1t, Y0tmin1, Y0tmin2, cc, method="level",
+      cl=1)
 cb
 ggCSABounds(cb)
 

@@ -412,6 +412,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @param y.seq the possible values for y to take
 #' @param F.y0 (optional) pre-computed distribution of counterfactual untreated outcomes for the treated group
 #' @param F.y1 (optional) pre-computed distribution of treated outcomes for the treated group
+#' @param cl (optional) number of multi-cores to use
 #'
 #' @examples
 #' data(displacements)

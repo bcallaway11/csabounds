@@ -194,6 +194,17 @@ compute.attcpo <- function(Y1t, Y0tmin1, Y0tmin2,
 #'  ATT-CPO using based on the levels of Y0tmin1 or the ranks of Y0tmin1;
 #'  "levels" is the default.
 #'
+#' @examples
+#' data(displacements)
+#' cc <- qte::CiC(learn ~ treat,
+#'                t=2011, tmin1=2007, tname="year",
+#'                idname="id", panel=TRUE, data=displacements,
+#'                probs=seq(.05,.95,.01),se=FALSE)
+#' ac <- attcpo(learn ~ treat, 2011, 2007, 2003, "year", displacements,
+#'         "id", cc, method="level", yseqlen=10)
+#' ac
+#' ggattcpo(ac)
+#'
 #' @return att-cpo
 #'
 #' @export
