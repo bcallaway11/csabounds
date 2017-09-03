@@ -19,7 +19,7 @@ csa.bounds(formla, t, tmin1, tmin2, tname, idname, data, delt.seq, y.seq,
 
 \item{tname}{the name of the column containing periods}
 
-\item{idname}{the name of the columen containig ids}
+\item{idname}{the name of the column containing ids}
 
 \item{data}{a panel data frame}
 
@@ -53,6 +53,7 @@ Compute bounds on the distribution and quantile of the
  available.
 }
 \examples{
+\dontrun{
 data(displacements)
 delt.seq <- seq(-4,4,length.out=50)
 y.seq <- seq(6.5,13,length.out=50)
@@ -66,5 +67,5 @@ cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
         method="level", cl=1)
 cb
 ggCSABounds(cb)
-
+}
 }

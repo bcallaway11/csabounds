@@ -4,3 +4,4 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^cran-comments\.md$
+^man/figures/README-unnamed-chunk-3-1\.png$

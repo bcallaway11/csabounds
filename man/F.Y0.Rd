@@ -27,7 +27,7 @@ scalar F(y|ytmin1)
 \description{
 compute F(y|ytmin1) where F is the conditional
  distribution of untreated potential outcomes for the treated group
- condtional on ytmin1;  This is computed under the copula
+ conditional on ytmin1;  This is computed under the copula
  stability assumption
 }
 \keyword{internal}

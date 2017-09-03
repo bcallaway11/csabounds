@@ -14,7 +14,7 @@ k <- function(z,h=1) {
 
 #' @title E.Y1
 #'
-#' @description a function for computing the conditional expectiation
+#' @description a function for computing the conditional expectation
 #'  of Y_1t given a value for Y_0tmin1
 #'
 #' @param ytmin1val scalar value to compute conditional expectation for
@@ -232,7 +232,7 @@ attcpo <- function(formla, t, tmin1, tmin2, tname, data,
 #'
 #' @param y.seq possible values for y
 #' @param attcpo value of attcpo
-#' @param ey1 expectation of treated potential outcomes conditonal on y_{t-1}
+#' @param ey1 expectation of treated potential outcomes conditional on y_{t-1}
 #' @param ey0 expectation of untreated potential outcomes conditional on y_{t-1}
 #' @param attcpo.se standard errors for att.cpo
 #' @param V variance matrix

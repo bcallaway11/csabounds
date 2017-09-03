@@ -12,7 +12,7 @@ ATTCPO.OBJ(y.seq, attcpo, ey1 = NULL, ey0 = NULL, attcpo.se = NULL,
 
 \item{attcpo}{value of attcpo}
 
-\item{ey1}{expectation of treated potential outcomes conditonal on y_{t-1}}
+\item{ey1}{expectation of treated potential outcomes conditional on y_{t-1}}
 
 \item{ey0}{expectation of untreated potential outcomes conditional on y_{t-1}}
 

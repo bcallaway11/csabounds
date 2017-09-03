@@ -169,7 +169,7 @@ F.Y1 <- function(ytmin1, y.seq, Y1t, Y0tmin1,  h=NULL, method="level") {
 #'
 #' @description compute F(y|ytmin1) where F is the conditional
 #'  distribution of untreated potential outcomes for the treated group
-#'  condtional on ytmin1;  This is computed under the copula
+#'  conditional on ytmin1;  This is computed under the copula
 #'  stability assumption
 #'
 #' @inheritParams F.Y1
@@ -413,7 +413,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @param tmin1 the 2nd period
 #' @param tmin2 the 1st period
 #' @param tname the name of the column containing periods
-#' @param idname the name of the columen containig ids
+#' @param idname the name of the column containing ids
 #' @param delt.seq the possible values to compute bounds on the distribution
 #'  of the treatment effect for
 #' @param y.seq the possible values for y to take
@@ -422,6 +422,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #' @param cl (optional) number of multi-cores to use
 #'
 #' @examples
+#' \dontrun{
 #' data(displacements)
 #' delt.seq <- seq(-4,4,length.out=50)
 #' y.seq <- seq(6.5,13,length.out=50)
@@ -435,7 +436,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #'         method="level", cl=1)
 #' cb
 #' ggCSABounds(cb)
-#'
+#' }
 #' @import stats
 #' @importFrom pbapply pblapply
 #'

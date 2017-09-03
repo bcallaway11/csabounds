@@ -24,7 +24,7 @@ is based on the level of Y0tmin1 or its rank}
 the conditional expectation of y1 conditional on y0tmin1
 }
 \description{
-a function for computing the conditional expectiation
+a function for computing the conditional expectation
  of Y_1t given a value for Y_0tmin1
 }
 \keyword{internal}
