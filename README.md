@@ -74,4 +74,4 @@ Once the counterfactual distribution is avialable, one can run the main method t
  ggCSABounds(cb, wdbounds=TRUE)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](man/figures/README-unnamed-chunk-3-1.png)
