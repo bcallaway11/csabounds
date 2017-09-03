@@ -38,7 +38,7 @@ E.Y1 <- function(ytmin1val, Y1t, Y0tmin1, h=NULL, method="level") {
     y <- ytmin1val
     X <- cbind(1, Y0tmin1-y)
     if (is.null(h)) {
-        h <- sd(Y0tmin1)*n.treated^(-1/6) ## check that this is right
+        h <- 1.06*sd(Y0tmin1)*n.treated^(-1/4) ## check that this is right
     }
     K <- diag(k(Y0tmin1 - y,h), n.treated, n.treated)
     (solve(t(X)%*%K%*%X) %*% t(X)%*%K%*%Y1t)[1]
@@ -79,7 +79,7 @@ E.Y0 <- function(ytmin1val, Y0tmin1, Y0tmin2, Y0tqteobj,
                   type=1)
     X <- cbind(1, Y0tmin2-xtmin1)
     if (is.null(h)) {
-        h <- sd(X[,2])*n.treated^(-1/6)##sd(Y0tmin2)*n.treated^(-1/6) ## check that this is right
+        h <- 1.06*sd(X[,2])*n.treated^(-1/4)##sd(Y0tmin2)*n.treated^(-1/6) ## check that this is right
     }
     K <- diag(k(Y0tmin2-xtmin1,h), n.treated, n.treated)
     (solve(t(X)%*%K%*%X) %*% t(X)%*%K%*%Z)[1]
@@ -247,6 +247,7 @@ ATTCPO.OBJ <- function(y.seq, attcpo, ey1=NULL, ey0=NULL, attcpo.se=NULL, V=NULL
     out <- list(y.seq=y.seq, attcpo=ey1-ey0, ey1=ey1, ey0=ey0,
                 attcpo.se=attcpo.se, V=V, Y0tqteobj=Y0tqteobj)
     class(out) <- "ATTCPO.OBJ"
+    out
 }
 
 #' @title ggattcpo
