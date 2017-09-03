@@ -201,7 +201,7 @@ compute.attcpo <- function(Y1t, Y0tmin1, Y0tmin2,
 #'                idname="id", panel=TRUE, data=displacements,
 #'                probs=seq(.05,.95,.01),se=FALSE)
 #' ac <- attcpo(learn ~ treat, 2011, 2007, 2003, "year", displacements,
-#'         "id", cc, method="level", yseqlen=10)
+#'         "id", cc, method="rank", yseqlen=10)
 #' ac
 #' ggattcpo(ac)
 #'
