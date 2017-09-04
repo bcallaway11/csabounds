@@ -7,9 +7,9 @@ Imports: stats,
     ggplot2,
     BMisc,
     pbapply,
-    progress
+    progress,
+    qte
 Depends: R (>= 3.0)
-Suggests: qte
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
