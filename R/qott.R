@@ -120,17 +120,24 @@ wgr <- function(bet,y,x,thisx,h) {
 #'  The order of the variables is due to the way that the function
 #'  is called later on
 #'
+#' @param y.seq possible values for y to take
 #' @param ytmin1 the value of ytmin1 to condition on
-#' @param y the index of the distribution function
 #' @param Y1t vector of outcomes for the treated group in period t
 #' @param Y0tmin1 vector of outcomes for the treated group in period t-1
 #' @param h optional bandwidth
 #' @param method "level" or "rank" determining whether method should
 #'  be used conditional on ytmin1 or the rank of ytmin1
 #'
-#' @return scalar value of F(y|ytmin1)
+#' @return distribution F(y|ytmin1)
 #'
-#' @keywords internal
+#' @examples
+#' data(displacements)
+#' ytmin1 <- 10
+#' Y1t <- subset(displacements, year==2011 & treat==1)$learn
+#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+#' y.seq <- seq(min(c(Y0tmin1,Y1t), max(c(Y0tmin1,Y1t)), length.out=100)
+#' F.Y1(ytmin1, y.seq, Y1t, Y0tmin1)
+#' 
 #' @export
 F.Y1 <- function(ytmin1, y.seq, Y1t, Y0tmin1,  h=NULL, method="level") {
     n <- length(Y1t)
@@ -178,8 +185,23 @@ F.Y1 <- function(ytmin1, y.seq, Y1t, Y0tmin1,  h=NULL, method="level") {
 #' @param Y0tqteobj a qte object for obtaining the counterfactual distribution
 #'  of untreated potential outcomes for the treated group in period t
 #'
-#' @return scalar F(y|ytmin1)
-#' @keywords internal
+#' @return distribution F(y|ytmin1)
+#'
+#' @examples
+#' data(displacements)
+#' ytmin1 <- 10
+#' Y1t <- subset(displacements, year==2011 & treat==1)$learn
+#' Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+#' Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
+#' y.seq <- seq(min(c(Y0tmin2,Y0tmin1,Y1t)), max(c(Y0tmin2,Y0tmin1,Y1t)), length.out=100)
+#' cc <- qte::CiC(learn ~ treat,
+#'                t=2011, tmin1=2007, tname="year",
+#'                idname="id", panel=TRUE, data=displacements,
+#'                probs=seq(.05,.95,.01),se=FALSE)
+#' cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
+#' cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
+#' F.Y0(ytmin1, y.seq, Y0tmin1, Y0tmin2, cc)
+#' 
 #' @export
 F.Y0 <- function(ytmin1, y.seq, Y0tmin1, Y0tmin2, Y0tqteobj, h=NULL,
                  method="level") {
@@ -430,7 +452,8 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 #'                t=2011, tmin1=2007, tname="year",
 #'                idname="id", panel=TRUE, data=displacements,
 #'                probs=seq(.05,.95,.01),se=FALSE)
-#' cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2011 & treat==1)$learn)
+#' cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
+#' cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
 #' cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
 #'         displacements, delt.seq, y.seq, cc,
 #'         method="level", cl=1)

@@ -21,7 +21,7 @@ be used conditional on ytmin1 or the rank of ytmin1}
 \item{y}{the index of the distribution function}
 }
 \value{
-scalar value of F(y|ytmin1)
+distribution F(y|ytmin1)
 }
 \description{
 calculate F(y|ytmin1), the conditional distribution
@@ -29,4 +29,12 @@ calculate F(y|ytmin1), the conditional distribution
  The order of the variables is due to the way that the function
  is called later on
 }
-\keyword{internal}
+\examples{
+data(displacements)
+ytmin1 <- 10
+Y1t <- subset(displacements, year==2011 & treat==1)$learn
+Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+y.seq <- seq(min(c(Y0tmin1,Y1t), max(c(Y0tmin1,Y1t)), length.out=100)
+F.Y1(ytmin1, y.seq, Y1t, Y0tmin1)
+
+}

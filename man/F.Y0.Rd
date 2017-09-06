@@ -22,7 +22,7 @@ of untreated potential outcomes for the treated group in period t}
 be used conditional on ytmin1 or the rank of ytmin1}
 }
 \value{
-scalar F(y|ytmin1)
+distribution F(y|ytmin1)
 }
 \description{
 compute F(y|ytmin1) where F is the conditional
@@ -30,4 +30,19 @@ compute F(y|ytmin1) where F is the conditional
  conditional on ytmin1;  This is computed under the copula
  stability assumption
 }
-\keyword{internal}
+\examples{
+data(displacements)
+ytmin1 <- 10
+Y1t <- subset(displacements, year==2011 & treat==1)$learn
+Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+Y0tmin2 <- subset(displacements, year==2003 & treat==1)$learn
+y.seq <- seq(min(c(Y0tmin2,Y0tmin1,Y1t)), max(c(Y0tmin2,Y0tmin1,Y1t)), length.out=100)
+cc <- qte::CiC(learn ~ treat,
+               t=2011, tmin1=2007, tname="year",
+               idname="id", panel=TRUE, data=displacements,
+               probs=seq(.05,.95,.01),se=FALSE)
+cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
+cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
+F.Y0(ytmin1, y.seq, Y0tmin1, Y0tmin2, cc)
+
+}
