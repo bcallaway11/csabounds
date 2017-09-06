@@ -18,7 +18,7 @@ devtools::install_github("bcallaway11/csabounds")
 #> Installing csabounds
 #> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
 #>   --quiet CMD INSTALL  \
-#>   '/tmp/RtmpsGarkB/devtools3895cff4804/bcallaway11-csabounds-e46a182'  \
+#>   '/tmp/Rtmpk3Zmf1/devtools4be032447b05/bcallaway11-csabounds-9bf8f68'  \
 #>   --library='/home/tug82594/R/x86_64-pc-linux-gnu-library/3.4'  \
 #>   --install-tests
 #> 
@@ -82,4 +82,4 @@ Once the counterfactual distribution is avialable, one can run the main method t
  ggCSABounds(cb, wdbounds=TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-3-1.png) ![](man/figures/README-unnamed-chunk-3-1.png)
