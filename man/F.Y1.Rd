@@ -9,6 +9,8 @@ F.Y1(ytmin1, y.seq, Y1t, Y0tmin1, h = NULL, method = "level")
 \arguments{
 \item{ytmin1}{the value of ytmin1 to condition on}
 
+\item{y.seq}{possible values for y to take}
+
 \item{Y1t}{vector of outcomes for the treated group in period t}
 
 \item{Y0tmin1}{vector of outcomes for the treated group in period t-1}
@@ -17,8 +19,6 @@ F.Y1(ytmin1, y.seq, Y1t, Y0tmin1, h = NULL, method = "level")
 
 \item{method}{"level" or "rank" determining whether method should
 be used conditional on ytmin1 or the rank of ytmin1}
-
-\item{y}{the index of the distribution function}
 }
 \value{
 distribution F(y|ytmin1)
@@ -34,7 +34,7 @@ data(displacements)
 ytmin1 <- 10
 Y1t <- subset(displacements, year==2011 & treat==1)$learn
 Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
-y.seq <- seq(min(c(Y0tmin1,Y1t), max(c(Y0tmin1,Y1t)), length.out=100)
+y.seq <- seq(min(c(Y0tmin1,Y1t)), max(c(Y0tmin1,Y1t)), length.out=100)
 F.Y1(ytmin1, y.seq, Y1t, Y0tmin1)
 
 }

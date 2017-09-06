@@ -9,6 +9,8 @@ F.Y0(ytmin1, y.seq, Y0tmin1, Y0tmin2, Y0tqteobj, h = NULL, method = "level")
 \arguments{
 \item{ytmin1}{the value of ytmin1 to condition on}
 
+\item{y.seq}{possible values for y to take}
+
 \item{Y0tmin1}{vector of outcomes for the treated group in period t-1}
 
 \item{Y0tmin2}{vector of outcomes for the treated group in period t-2}

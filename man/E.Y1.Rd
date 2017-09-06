@@ -27,4 +27,11 @@ the conditional expectation of y1 conditional on y0tmin1
 a function for computing the conditional expectation
  of Y_1t given a value for Y_0tmin1
 }
-\keyword{internal}
+\examples{
+data(displacements)
+ytmin1 <- 10
+Y1t <- subset(displacements, year==2011 & treat==1)$learn
+Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
+E.Y1(ytmin1, Y1t, Y0tmin1)
+
+}
