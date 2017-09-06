@@ -82,7 +82,7 @@
     </div>
 
     
-    <p>a function for computing the conditional expectiation
+    <p>a function for computing the conditional expectation
  of Y_1t given a value for Y_0tmin1</p>
     
 
@@ -121,6 +121,13 @@ is based on the level of Y0tmin1 or its rank</p></td>
     <p>the conditional expectation of y1 conditional on y0tmin1</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>displacements</span>)
+<span class='no'>ytmin1</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
+<span class='no'>Y1t</span> <span class='kw'>&lt;-</span> <span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2011</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>
+<span class='no'>Y0tmin1</span> <span class='kw'>&lt;-</span> <span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2007</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>
+<span class='fu'>E.Y1</span>(<span class='no'>ytmin1</span>, <span class='no'>Y1t</span>, <span class='no'>Y0tmin1</span>)</div><div class='output co'>#&gt; [1] 9.439928</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -128,7 +135,9 @@ is based on the level of Y0tmin1 or its rank</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

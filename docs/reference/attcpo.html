@@ -168,6 +168,8 @@ ATT-CPO using based on the levels of Y0tmin1 or the ranks of Y0tmin1;
                <span class='kw'>t</span><span class='kw'>=</span><span class='fl'>2011</span>, <span class='kw'>tmin1</span><span class='kw'>=</span><span class='fl'>2007</span>, <span class='kw'>tname</span><span class='kw'>=</span><span class='st'>"year"</span>,
                <span class='kw'>idname</span><span class='kw'>=</span><span class='st'>"id"</span>, <span class='kw'>panel</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>displacements</span>,
                <span class='kw'>probs</span><span class='kw'>=</span><span class='fu'>seq</span>(<span class='fl'>.05</span>,<span class='fl'>.95</span>,<span class='fl'>.01</span>),<span class='kw'>se</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>cc</span>$<span class='no'>F.treated.tmin1</span> <span class='kw'>&lt;-</span> <span class='fu'>ecdf</span>(<span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2007</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>)
+<span class='no'>cc</span>$<span class='no'>F.treated.tmin2</span> <span class='kw'>&lt;-</span> <span class='fu'>ecdf</span>(<span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2003</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>)
 <span class='no'>ac</span> <span class='kw'>&lt;-</span> <span class='fu'>attcpo</span>(<span class='no'>learn</span> ~ <span class='no'>treat</span>, <span class='fl'>2011</span>, <span class='fl'>2007</span>, <span class='fl'>2003</span>, <span class='st'>"year"</span>, <span class='no'>displacements</span>,
         <span class='st'>"id"</span>, <span class='no'>cc</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"rank"</span>, <span class='kw'>yseqlen</span><span class='kw'>=</span><span class='fl'>10</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='no'>ac</span></div><div class='output co'>#&gt; $y.seq
 #&gt;  [1] 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
@@ -283,9 +285,7 @@ ATT-CPO using based on the levels of Y0tmin1 or the ranks of Y0tmin1;
 #&gt;  x[1:80] = 7.0031, 7.2442, 7.6009,  ..., 12.044, 12.748
 #&gt; 
 #&gt; $F.untreated.t
-#&gt; Empirical CDF 
-#&gt; Call: ecdf(untreated.t[, yname])
-#&gt;  x[1:86] = 8.5172, 8.9872, 9.2103,  ...,  12.09, 12.748
+#&gt; NULL
 #&gt; 
 #&gt; $F.treated.t.cf
 #&gt; Empirical CDF 
@@ -294,11 +294,13 @@ ATT-CPO using based on the levels of Y0tmin1 or the ranks of Y0tmin1;
 #&gt; 
 #&gt; $F.treated.tmin1
 #&gt; Empirical CDF 
-#&gt; Call: ecdf(treated.tmin1[, yname])
+#&gt; Call: ecdf(subset(displacements, year == 2007 &amp; treat == 1)$learn)
 #&gt;  x[1:78] = 8.6482, 9.2103, 9.6158,  ..., 11.849, 12.637
 #&gt; 
 #&gt; $F.treated.tmin2
-#&gt; NULL
+#&gt; Empirical CDF 
+#&gt; Call: ecdf(subset(displacements, year == 2003 &amp; treat == 1)$learn)
+#&gt;  x[1:74] = 8.2266, 8.8537, 8.9872,  ..., 11.791, 12.491
 #&gt; 
 #&gt; $F.treated.change.tmin1
 #&gt; NULL
@@ -310,9 +312,7 @@ ATT-CPO using based on the levels of Y0tmin1 or the ranks of Y0tmin1;
 #&gt; NULL
 #&gt; 
 #&gt; $F.untreated.tmin1
-#&gt; Empirical CDF 
-#&gt; Call: ecdf(untreated.tmin1[, yname])
-#&gt;  x[1:79] = 7.6962, 9.6158, 9.6803,  ..., 11.938, 12.637
+#&gt; NULL
 #&gt; 
 #&gt; $F.untreated.tmin2
 #&gt; NULL

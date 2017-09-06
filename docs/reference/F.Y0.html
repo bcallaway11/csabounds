@@ -84,7 +84,7 @@
     
     <p>compute F(y|ytmin1) where F is the conditional
  distribution of untreated potential outcomes for the treated group
- condtional on ytmin1;  This is computed under the copula
+ conditional on ytmin1;  This is computed under the copula
  stability assumption</p>
     
 
@@ -96,6 +96,10 @@
     <tr>
       <th>ytmin1</th>
       <td><p>the value of ytmin1 to condition on</p></td>
+    </tr>
+    <tr>
+      <th>y.seq</th>
+      <td><p>possible values for y to take</p></td>
     </tr>
     <tr>
       <th>Y0tmin1</th>
@@ -123,9 +127,26 @@ be used conditional on ytmin1 or the rank of ytmin1</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>scalar F(y|ytmin1)</p>
+    <p>distribution F(y|ytmin1)</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>displacements</span>)
+<span class='no'>ytmin1</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
+<span class='no'>Y1t</span> <span class='kw'>&lt;-</span> <span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2011</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>
+<span class='no'>Y0tmin1</span> <span class='kw'>&lt;-</span> <span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2007</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>
+<span class='no'>Y0tmin2</span> <span class='kw'>&lt;-</span> <span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2003</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>
+<span class='no'>y.seq</span> <span class='kw'>&lt;-</span> <span class='fu'>seq</span>(<span class='fu'>min</span>(<span class='fu'>c</span>(<span class='no'>Y0tmin2</span>,<span class='no'>Y0tmin1</span>,<span class='no'>Y1t</span>)), <span class='fu'>max</span>(<span class='fu'>c</span>(<span class='no'>Y0tmin2</span>,<span class='no'>Y0tmin1</span>,<span class='no'>Y1t</span>)), <span class='kw'>length.out</span><span class='kw'>=</span><span class='fl'>100</span>)
+<span class='no'>cc</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>qte</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/qte/topics/CiC'>CiC</a></span>(<span class='no'>learn</span> ~ <span class='no'>treat</span>,
+               <span class='kw'>t</span><span class='kw'>=</span><span class='fl'>2011</span>, <span class='kw'>tmin1</span><span class='kw'>=</span><span class='fl'>2007</span>, <span class='kw'>tname</span><span class='kw'>=</span><span class='st'>"year"</span>,
+               <span class='kw'>idname</span><span class='kw'>=</span><span class='st'>"id"</span>, <span class='kw'>panel</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>displacements</span>,
+               <span class='kw'>probs</span><span class='kw'>=</span><span class='fu'>seq</span>(<span class='fl'>.05</span>,<span class='fl'>.95</span>,<span class='fl'>.01</span>),<span class='kw'>se</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>cc</span>$<span class='no'>F.treated.tmin2</span> <span class='kw'>&lt;-</span> <span class='fu'>ecdf</span>(<span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2003</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>)
+<span class='no'>cc</span>$<span class='no'>F.treated.tmin1</span> <span class='kw'>&lt;-</span> <span class='fu'>ecdf</span>(<span class='fu'>subset</span>(<span class='no'>displacements</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2007</span> <span class='kw'>&amp;</span> <span class='no'>treat</span><span class='kw'>==</span><span class='fl'>1</span>)$<span class='no'>learn</span>)
+<span class='fu'>F.Y0</span>(<span class='no'>ytmin1</span>, <span class='no'>y.seq</span>, <span class='no'>Y0tmin1</span>, <span class='no'>Y0tmin2</span>, <span class='no'>cc</span>)</div><div class='output co'>#&gt; Empirical CDF 
+#&gt; Call: NULL
+#&gt;  x[1:100] = 7.0031, 7.0611, 7.1191,  ...,  12.69, 12.748</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -133,7 +154,9 @@ be used conditional on ytmin1 or the rank of ytmin1</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
