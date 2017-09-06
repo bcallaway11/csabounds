@@ -37,13 +37,14 @@ A subset of the data is contained in the `displacements` dataset contained in th
  delt.seq <- seq(-4,4,length.out=50)
  y.seq <- seq(6.5,13,length.out=50)
 ```
-The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, $F_{Y_{0t}|D_t=1}$.  In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the `R` `qte` package.  The distribution of outcomes for the treated group in period $t-2$ also needs to be set and is not done automatically using the `qte::CiC` method.
+The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, $F_{Y_{0t}|D_t=1}$.  In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the `R` `qte` package.  The distribution of outcomes for the treated group in periods $t-1$ and $t-2$ also needs to be set and is not done automatically using the `qte::CiC` method.
 ```{r}
  cc <- qte::CiC(learn ~ treat,
                 t=2011, tmin1=2007, tname="year",
                 idname="id", panel=TRUE, data=displacements,
                 probs=seq(.05,.95,.01),se=FALSE)
- cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2011 & treat==1)$learn)
+ cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
+ cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
 ```
 Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself.  (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the \textit{joint} distribution of treated and untreated potential outcomes.)  Under the Copula Stability Assumption -- see Callaway (2017) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect.  These are calculated and plotted next.
 ```{r}
