@@ -20,7 +20,7 @@ The csabounds package allows the user to obtain tight bounds on distributional t
 
 You can install csabounds from github with:
 
-```{r gh-installation}
+```{r gh-installation, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("bcallaway11/csabounds")
 ```
@@ -47,7 +47,7 @@ The first step is to compute the counterfactual distribution of untreated potent
  cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
 ```
 Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself.  (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the \textit{joint} distribution of treated and untreated potential outcomes.)  Under the Copula Stability Assumption -- see Callaway (2017) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect.  These are calculated and plotted next.
-```{r}
+```{r eval=FALSE}
  cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
          displacements, delt.seq, y.seq, cc,
          method="level", cl=1)

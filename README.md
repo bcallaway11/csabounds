@@ -13,15 +13,6 @@ You can install csabounds from github with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("bcallaway11/csabounds")
-#> Downloading GitHub repo bcallaway11/csabounds@master
-#> from URL https://api.github.com/repos/bcallaway11/csabounds/zipball/master
-#> Installing csabounds
-#> '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-#>   --quiet CMD INSTALL  \
-#>   '/tmp/Rtmpk3Zmf1/devtools4be032447b05/bcallaway11-csabounds-9bf8f68'  \
-#>   --library='/home/tug82594/R/x86_64-pc-linux-gnu-library/3.4'  \
-#>   --install-tests
-#> 
 ```
 
 Example
@@ -55,30 +46,7 @@ Once the counterfactual distribution is avialable, one can run the main method t
  cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
          displacements, delt.seq, y.seq, cc,
          method="level", cl=1)
-#> [1] "Step 1 of 4: Calculating conditional distribution of treated potential outcomes..."
-#> [1] "Step 2 of 4: Calculating conditional distribution of untreated potential outcomes..."
-#> [1] "Step 3 of 4: Calculating lower bound"
-#> [1] "Step 4 of 4: Calculating upper bound"
  cb
-#> $F.l
-#> Empirical CDF 
-#> Call: NULL
-#>  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4
-#> 
-#> $F.u
-#> Empirical CDF 
-#> Call: NULL
-#>  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4
-#> 
-#> $F.wd.l
-#> Empirical CDF 
-#> Call: NULL
-#>  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4
-#> 
-#> $F.wd.u
-#> Empirical CDF 
-#> Call: NULL
-#>  x[1:50] =     -4, -3.8367, -3.6735,  ..., 3.8367,      4
  ggCSABounds(cb, wdbounds=TRUE)
 ```
 
