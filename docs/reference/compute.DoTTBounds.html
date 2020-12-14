@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>k — k • csabounds</title>
+<title>compute.DoTTBounds — compute.DoTTBounds • csabounds</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="k — k" />
-<meta property="og:description" content="kernel function" />
+<meta property="og:title" content="compute.DoTTBounds — compute.DoTTBounds" />
+<meta property="og:description" content="function that does the heavy lifting for computing bounds on the DoTT (and hence
+ on the QoTT) when conditional distributions of Y1t and Y0t are available" />
 
 
 
@@ -106,33 +107,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>k</h1>
+    <h1>compute.DoTTBounds</h1>
     
-    <div class="hidden name"><code>k.Rd</code></div>
+    <div class="hidden name"><code>compute.DoTTBounds.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>kernel function</p>
+    <p>function that does the heavy lifting for computing bounds on the DoTT (and hence
+ on the QoTT) when conditional distributions of Y1t and Y0t are available</p>
     </div>
 
-    <pre class="usage"><span class='fu'>k</span><span class='op'>(</span><span class='va'>z</span>, h <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>compute.DoTTBounds</span><span class='op'>(</span><span class='va'>delt.seq</span>, <span class='va'>y.seq</span>, <span class='va'>F.y1</span>, <span class='va'>F.y0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>z</th>
-      <td><p>evaluate kernel at value z</p></td>
+      <th>delt.seq</th>
+      <td><p>the possible values to compute bounds on the distribution
+of the treatment effect for</p></td>
     </tr>
     <tr>
-      <th>h</th>
-      <td><p>bandwidth</p></td>
+      <th>y.seq</th>
+      <td><p>the possible values for y to take</p></td>
+    </tr>
+    <tr>
+      <th>F.y1</th>
+      <td><p>(optional) pre-computed distribution of treated outcomes for the treated group</p></td>
+    </tr>
+    <tr>
+      <th>F.y0</th>
+      <td><p>(optional) pre-computed distribution of counterfactual untreated outcomes for the treated group</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>gaussian kernel</p>
+    <p>List with bounds coming from conditional distributions and Williamson-Downs bounds</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

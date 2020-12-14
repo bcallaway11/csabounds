@@ -4,13 +4,15 @@
 \name{displacements}
 \alias{displacements}
 \title{Job displacement data from the NLSY}
-\format{A data frame with 798 rows 3 columns:
+\format{
+A data frame with 798 rows 3 columns:
 \describe{
   \item{id}{individual identifier}
   \item{treat}{1 for displaced individuals, 0 otherwise}
   \item{year}{the year of earnings}
   \item{learn}{the log of earnings in year t for individual i}
-}}
+}
+}
 \source{
 subset of NLSY 1979 data used in Callaway (2017)
 }

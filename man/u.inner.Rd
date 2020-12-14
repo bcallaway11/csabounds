@@ -2,20 +2,25 @@
 % Please edit documentation in R/qott.R
 \name{u.inner}
 \alias{u.inner}
-\title{l.inner}
+\title{u.inner}
 \usage{
-u.inner(y, ytmin1, delt, ytmin1.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj, F.y1,
-  F.y0)
+u.inner(delt, y.seq, F.y1, F.y0)
 }
 \arguments{
-\item{y}{a value to compute the inner part of Lemma 3 for}
+\item{delt}{the value to obtain the DoTT for}
+
+\item{y.seq}{possible values of y}
+
+\item{F.y1}{list of distributions of treated outcomes for the treated group (length of list should be n_1)}
+
+\item{F.y0}{list of distributions of counterfactual untreated outcomes for the treated group
+(length of list should be n_1)}
 }
 \value{
-scalar that depends on the values of y, ytmin1, and delt
+the value of the upper bound of DoTT(delt)
 }
 \description{
-for a particular value of y, ytmin1, delt, compute the
- min part (before taking sup) in computing the upper bound of DoTT(delt),
- see Callaway (2017), Lemma 3
+Obtains the upper bound on the Distribution of the
+ Treatment Effect for the Treated (DoTT), DoTT(delt)
+ under the Copula Stability Assumption
 }
-\keyword{internal}

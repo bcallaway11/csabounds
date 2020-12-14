@@ -4,9 +4,22 @@
 \alias{attcpo}
 \title{attcpo}
 \usage{
-attcpo(formla, t, tmin1, tmin2, tname, data, idname, Y0tqteobj, h = NULL,
-  yseq = NULL, yseqlen = 100, se = TRUE, iters = 100,
-  method = "level")
+attcpo(
+  formla,
+  t,
+  tmin1,
+  tmin2,
+  tname,
+  data,
+  idname,
+  Y0tqteobj,
+  h = NULL,
+  yseq = NULL,
+  yseqlen = 100,
+  se = TRUE,
+  iters = 100,
+  method = "level"
+)
 }
 \arguments{
 \item{formla}{e.g. y ~ treat}

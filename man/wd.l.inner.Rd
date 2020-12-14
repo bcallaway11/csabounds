@@ -6,11 +6,6 @@
 \usage{
 wd.l.inner(y, delt, Y1t, Y0tqteobj)
 }
-\arguments{
-\item{delt}{the value to obtain the DoTT for}
-
-\item{Y1t}{vector of outcomes for the treated group in period t}
-}
 \description{
 Williamson-Downs bounds inner
 }

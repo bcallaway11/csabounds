@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>k — k • csabounds</title>
+<title>cia.bounds — cia.bounds • csabounds</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,14 @@
 
 
 
-<meta property="og:title" content="k — k" />
-<meta property="og:description" content="kernel function" />
+<meta property="og:title" content="cia.bounds — cia.bounds" />
+<meta property="og:description" content="Bounds on the distribution of the treatment effect and on
+ the quantile of the treatment effect under a conditional independence
+ assumption (cia).  It takes in a data.frame, that should indicate whether
+ or not an individual is treated; separates individuals into a treated
+ and untreated group; runs distribution or quantile regression to
+ estimate the conditional distributions; then computes bounds on the
+ DoTT or QoTT." />
 
 
 
@@ -106,33 +112,98 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>k</h1>
+    <h1>cia.bounds</h1>
     
-    <div class="hidden name"><code>k.Rd</code></div>
+    <div class="hidden name"><code>cia.bounds.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>kernel function</p>
+    <p>Bounds on the distribution of the treatment effect and on
+ the quantile of the treatment effect under a conditional independence
+ assumption (cia).  It takes in a data.frame, that should indicate whether
+ or not an individual is treated; separates individuals into a treated
+ and untreated group; runs distribution or quantile regression to
+ estimate the conditional distributions; then computes bounds on the
+ DoTT or QoTT.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>k</span><span class='op'>(</span><span class='va'>z</span>, h <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cia.bounds</span><span class='op'>(</span>
+  <span class='va'>formla</span>,
+  xformla <span class='op'>=</span> <span class='op'>~</span><span class='fl'>1</span>,
+  <span class='va'>data</span>,
+  <span class='va'>delt.seq</span>,
+  y.seq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  firststep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dr"</span>, <span class='st'>"qr"</span>, <span class='st'>"ll"</span><span class='op'>)</span>,
+  link <span class='op'>=</span> <span class='st'>"logit"</span>,
+  se <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  bootiters <span class='op'>=</span> <span class='fl'>100</span>,
+  cl <span class='op'>=</span> <span class='fl'>1</span>,
+  alp <span class='op'>=</span> <span class='fl'>0.05</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>z</th>
-      <td><p>evaluate kernel at value z</p></td>
+      <th>formla</th>
+      <td><p>y ~ d</p></td>
     </tr>
     <tr>
-      <th>h</th>
-      <td><p>bandwidth</p></td>
+      <th>xformla</th>
+      <td><p>~ x1 + x2</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>the name of the <code>data.frame</code>.  It should be in "long"
+format rather than "wide" format.</p></td>
+    </tr>
+    <tr>
+      <th>delt.seq</th>
+      <td><p>a vector of values to compute the distribution of the
+treatment effect for</p></td>
+    </tr>
+    <tr>
+      <th>y.seq</th>
+      <td><p>a vectof of values to compute first-step distributions over
+(this is currently not used as it is computed internally)</p></td>
+    </tr>
+    <tr>
+      <th>firststep</th>
+      <td><p>whether to use distribution regression ("dr"),
+quantile regression ("qr"), or local linear distribution regression ("ll")
+for the first step estimation of condtional distributions</p></td>
+    </tr>
+    <tr>
+      <th>link</th>
+      <td><p>optional argument to pass to <code>distreg</code> for which link
+function to use when running distribution regressions</p></td>
+    </tr>
+    <tr>
+      <th>se</th>
+      <td><p>whether or not to compute standard errors (if <code>TRUE</code>,
+they are computed using the bootstrap</p></td>
+    </tr>
+    <tr>
+      <th>bootiters</th>
+      <td><p>if computing standard errors using the bootstrap, how
+many bootstrap iterations to use</p></td>
+    </tr>
+    <tr>
+      <th>cl</th>
+      <td><p>if computing standard errors using the bootstrap, how many
+cores to use in parallel computation (default is 1)</p></td>
+    </tr>
+    <tr>
+      <th>alp</th>
+      <td><p>significance level for confidence intervals</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>whatever extra arguments need to be passed to Y0tmethod</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>gaussian kernel</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

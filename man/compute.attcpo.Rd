@@ -4,8 +4,18 @@
 \alias{compute.attcpo}
 \title{compute.attcpo}
 \usage{
-compute.attcpo(Y1t, Y0tmin1, Y0tmin2, Y0tqteobj, h = NULL, ytmin1seq = NULL,
-  yseqlength = NULL, se = TRUE, iters = 100, method = "level")
+compute.attcpo(
+  Y1t,
+  Y0tmin1,
+  Y0tmin2,
+  Y0tqteobj,
+  h = NULL,
+  ytmin1seq = NULL,
+  yseqlength = NULL,
+  se = TRUE,
+  iters = 100,
+  method = "level"
+)
 }
 \arguments{
 \item{Y1t}{treated group outcomes in period t}

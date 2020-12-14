@@ -1,12 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-csabounds
-=========
 
-The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes -- the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available. Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption. More details about the method can be found in Callaway (2017).
+# csabounds
 
-Installation
-------------
+The csabounds package allows the user to obtain tight bounds on
+distributional treatment effect parameters that depend on the joint
+distribution of treated and untreated potential outcomes – the joint
+distribution is not identified under standard identifying assumptions
+such as selection on observables or even when experimental data is
+available. Using the package requires three periods of panel data and
+the results follow under the Copula Stability Assumption. More details
+about the method can be found in [Callaway
+(2020)](https://doi.org/10.1016/j.jeconom.2020.02.005).
+
+## Installation
 
 You can install csabounds from github with:
 
@@ -15,12 +22,18 @@ You can install csabounds from github with:
 devtools::install_github("bcallaway11/csabounds")
 ```
 
-Example
--------
+## Example
 
-The following is a simplified example of the heterogeneous effects of job displacement considered in Callaway (2017) using data from the 1979 National Longitudinal Study of Youth.
+The following is a simplified example of the heterogeneous effects of
+job displacement considered in [Callaway
+(2020)](https://doi.org/10.1016/j.jeconom.2020.02.005) using data from
+the 1979 National Longitudinal Study of Youth.
 
-A subset of the data is contained in the `displacements` dataset contained in the package. `delt.seq` contains a vector of values to compute the distribution of the treatment effect for; that is, \(F_{Y_{1t}-Y_{0t}|D_t=1}(\delta)\). `y.seq` contains possible values for outcomes.
+A subset of the data is contained in the `displacements` dataset
+contained in the package. `delt.seq` contains a vector of values to
+compute the distribution of the treatment effect for; that is,
+\(F_{Y_{1t}-Y_{0t}|D_t=1}(\delta)\). `y.seq` contains possible values
+for outcomes.
 
 ``` r
  library(csabounds)
@@ -29,18 +42,37 @@ A subset of the data is contained in the `displacements` dataset contained in th
  y.seq <- seq(6.5,13,length.out=50)
 ```
 
-The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, \(F_{Y_{0t}|D_t=1}\). In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the `R` `qte` package. The distribution of outcomes for the treated group in periods \(t-1\) and \(t-2\) also needs to be set and is not done automatically using the `qte::CiC` method.
+The first step is to compute the counterfactual distribution of
+untreated potential outcomes for the treated group,
+\(F_{Y_{0t}|D_t=1}\). In this example, I use the Change in Changes
+method (Athey and Imbens, 2006) which is available in the `R` `qte`
+package. The distribution of outcomes for the treated group in periods
+\(t-1\) and \(t-2\) also needs to be set and is not done automatically
+using the `qte::CiC` method.
 
 ``` r
  cc <- qte::CiC(learn ~ treat,
                 t=2011, tmin1=2007, tname="year",
                 idname="id", panel=TRUE, data=displacements,
                 probs=seq(.05,.95,.01),se=FALSE)
+#> Warning in panelize.data(data, idname, tname, t, tmin1): dropping 266
+#> observations that are not in period: 2011, 2007, ...
+#> Warning in panel.checks(qp): covariates appear to vary over time...
+#>   only conditioning on first period covariates...
+#>   this is recommended practice, but worth noting...
  cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
  cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
 ```
 
-Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself. (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the distribution of treated and untreated potential outcomes.) Under the Copula Stability Assumption -- see Callaway (2017) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect. These are calculated and plotted next.
+Once the counterfactual distribution is avialable, one can run the main
+method to compute bounds on the distribution and the quantile of the
+treatment effect itself. (Recall the quantile of the treatment effect
+(QoTT) is significantly more challenging than the quantile treatment
+effect (QTT) because it depends on the  distribution of treated and
+untreated potential outcomes.) Under the Copula Stability Assumption –
+see [Callaway (2020)](https://doi.org/10.1016/j.jeconom.2020.02.005) –
+one can construct significantly tighter bounds on the distribution and
+quantile of the treatment effect. These are calculated and plotted next.
 
 ``` r
  cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",

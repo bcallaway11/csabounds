@@ -1,16 +1,20 @@
 Package: csabounds
 Title: Bounds on Distributional Treatment Effect Parameters
-Version: 1.0.0
-Authors@R: person("Brantly", "Callaway", email = "brantly.callaway@temple.edu", role = c("aut", "cre"))
-Description:  The joint distribution of potential outcomes is not typically identified under standard identifying assumptions such as selection on observables or even when individuals are randomly assigned to being treated. This package contains methods for obtaining tight bounds on distributional treatment effect parameters when panel data is available and under a Copula Stability Assumption as in Callaway (2017) <https://ssrn.com/abstract=3028251>.
+Version: 1.1.0
+Authors@R: person("Brantly", "Callaway", email = "brantly.callaway@uga.edu", role = c("aut", "cre"))
+Description: The joint distribution of potential outcomes is not typically identified under standard identifying assumptions such as selection on observables or even when individuals are randomly assigned to being treated. This package contains methods for obtaining tight bounds on distributional treatment effect parameters when panel data is available and under a Copula Stability Assumption as in Callaway (2020) <https://doi.org/10.1016/j.jeconom.2020.02.005>.
 Imports: stats,
     ggplot2,
     BMisc,
     pbapply,
     progress,
-    qte
+    qte,
+    quantreg,
+    distreg
+Remotes:
+    bcallaway11/distreg
 Depends: R (>= 3.0)
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1

@@ -4,8 +4,15 @@
 \alias{ATTCPO.OBJ}
 \title{ATTCPO.OBJ}
 \usage{
-ATTCPO.OBJ(y.seq, attcpo, ey1 = NULL, ey0 = NULL, attcpo.se = NULL,
-  V = NULL, Y0tqteobj = NULL)
+ATTCPO.OBJ(
+  y.seq,
+  attcpo,
+  ey1 = NULL,
+  ey0 = NULL,
+  attcpo.se = NULL,
+  V = NULL,
+  Y0tqteobj = NULL
+)
 }
 \arguments{
 \item{y.seq}{possible values for y}

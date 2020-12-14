@@ -4,21 +4,48 @@
 \alias{ggCSABounds}
 \title{ggCSABounds}
 \usage{
-ggCSABounds(csaboundsobj, tau = seq(0.05, 0.95, 0.05), wdbounds = FALSE,
-  otherdist1 = NULL, otherdist2 = NULL)
+ggCSABounds(
+  csaboundsobj,
+  tau = seq(0.05, 0.95, 0.05),
+  csalabel = "CSA Bounds",
+  wdbounds = FALSE,
+  wdlabel = "WD Bounds",
+  otherdist1 = NULL,
+  otherdist1label = "CS RI",
+  otherdist2 = NULL,
+  otherdist2label = "Panel RI",
+  plotSE = TRUE,
+  colors = NULL,
+  legend = TRUE
+)
 }
 \arguments{
 \item{csaboundsobj}{an object returned from the csa.bounds method}
 
 \item{tau}{vector of values between 0 and 1 to plot quantiles for}
 
+\item{csalabel}{label for bounds under copula stability assumption}
+
 \item{wdbounds}{boolean whether or not to also plot Williamson-Downs bounds}
+
+\item{wdlabel}{label for worst case bounds}
 
 \item{otherdist1}{optional ecdf of the distribution of the treatment effect
 under cross sectional rank invariance}
 
+\item{otherdist1label}{label for other distribution 1}
+
 \item{otherdist2}{optional ecdf of the distribution of the treatment effect
 under panel rank invariance}
+
+\item{otherdist2label}{label for other distribution 2}
+
+\item{plotSE}{whether or not to plot standard errors (default is \code{TRUE})}
+
+\item{colors}{optional vector of colors to use in place of \code{ggplot}'s
+default scheme}
+
+\item{legend}{whether or not to include a legend (default is \code{TRUE})}
 }
 \description{
 plot bounds on the quantile of the treatment effect

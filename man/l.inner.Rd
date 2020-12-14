@@ -4,28 +4,30 @@
 \alias{l.inner}
 \title{l.inner}
 \usage{
-l.inner(y, ytmin1, delt, ytmin1.seq, Y1t, Y0tmin1, Y0tmin2, Y0tqteobj, F.y1,
-  F.y0)
+l.inner(delt, y.seq, F.y1, F.y0)
 }
 \arguments{
-\item{y}{a value to compute the inner part of Lemma 3 for}
-
-\item{ytmin1}{the value of ytmin1 to condition on}
-
 \item{delt}{the value to obtain the DoTT for}
 
-\item{Y1t}{vector of outcomes for the treated group in period t}
+\item{y.seq}{possible values of y}
 
-\item{Y0tmin1}{vector of outcomes for the treated group in period t-1}
+\item{F.y1}{list of distributions of treated outcomes for the treated group (length of list should be n_1)}
 
-\item{Y0tmin2}{vector of outcomes for the treated group in period t-2}
+\item{F.y0}{list of distributions of counterfactual untreated outcomes for the treated group
+(length of list should be n_1)}
 }
 \value{
-scalar that depends on the values of y, ytmin1, and delt
+the value of the lower bound of DoTT(
 }
 \description{
-for a particular value of y, ytmin1, delt, compute the
- max part (before taking sup) in computing the lower bound of DoTT(delt),
- see Callaway (2017), Lemma 3
+Obtains the lower bound on the Distribution of the
+ Treatment Effect for the Treated (DoTT), DoTT(delt)
+ under the Copula Stability Assumption.  These are generic in the
+ sense that it is going to work without the CSA or with or without covariates.
+ You just need to provide a vector of distributions -- if there are no
+ covariates, all of these distributions are going to be the same
+ and there is not going to be any tightening of the bounds.  If there are
+ covariates or otherwise conditional distributions (e.g. coming from CSA),
+ then same computational approach will work, but it will also lead to
+ (potentially) tighter bounds.
 }
-\keyword{internal}

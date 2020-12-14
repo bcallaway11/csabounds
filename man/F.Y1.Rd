@@ -4,37 +4,44 @@
 \alias{F.Y1}
 \title{F.Y1}
 \usage{
-F.Y1(ytmin1, y.seq, Y1t, Y0tmin1, h = NULL, method = "level")
+F.Y1(
+  firststep = c("dr", "qr", "ll"),
+  xformla,
+  data,
+  yvals,
+  tvals,
+  h = NULL,
+  retF = TRUE
+)
 }
 \arguments{
-\item{ytmin1}{the value of ytmin1 to condition on}
+\item{firststep}{whether to use distribution regression ("dr"),
+quantile regression ("qr"), or local linear distribution regression ("ll")
+for the first step estimation of condtional distributions}
 
-\item{y.seq}{possible values for y to take}
+\item{xformla}{a formula for which covariates to use}
 
-\item{Y1t}{vector of outcomes for the treated group in period t}
+\item{data}{the data.frame.  It should contain colums called "Y1t" and
+"Y0tmin1" which correspond to treated potential outcomes in the third
+period and untreated potential outcomes in the second period}
 
-\item{Y0tmin1}{vector of outcomes for the treated group in period t-1}
+\item{yvals}{Sequence of values to compute distributions over
+(currently not used as these are determined internally)}
 
-\item{h}{optional bandwidth}
+\item{tvals}{Sequence of values to compute conditional distribution over
+(currently not used as these are determined internally)}
 
-\item{method}{"level" or "rank" determining whether method should
-be used conditional on ytmin1 or the rank of ytmin1}
+\item{h}{optional bandwidth when using local linear regression}
+
+\item{retF}{whether or not to return the distribution function itself;
+the default is \code{TRUE}.  If false, it returns a \code{distreg::DR} object}
 }
 \value{
 distribution F(y|ytmin1)
 }
 \description{
 calculate F(y|ytmin1), the conditional distribution
- of treated potential outcomes conditional on ytmin1;
- The order of the variables is due to the way that the function
- is called later on
-}
-\examples{
-data(displacements)
-ytmin1 <- 10
-Y1t <- subset(displacements, year==2011 & treat==1)$learn
-Y0tmin1 <- subset(displacements, year==2007 & treat==1)$learn
-y.seq <- seq(min(c(Y0tmin1,Y1t)), max(c(Y0tmin1,Y1t)), length.out=100)
-F.Y1(ytmin1, y.seq, Y1t, Y0tmin1)
-
+ of treated potential outcomes conditional on ytmin1.  This function
+ is typically computed internally in the \code{csabounds} package but
+ is provided here for convenience.
 }

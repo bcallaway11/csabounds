@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>k — k • csabounds</title>
+<title>compute.csa.bounds — compute.csa.bounds • csabounds</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,12 @@
 
 
 
-<meta property="og:title" content="k — k" />
-<meta property="og:description" content="kernel function" />
+<meta property="og:title" content="compute.csa.bounds — compute.csa.bounds" />
+<meta property="og:description" content="Compute bounds on the distribution and quantile of the
+ treatment effect as given in Callaway (2017) under the copula
+ stability assumption and when a first step estimator of the counterfactual
+ distribution of untreated potential outcomes for the treated group is
+ available." />
 
 
 
@@ -106,33 +110,114 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>k</h1>
+    <h1>compute.csa.bounds</h1>
     
-    <div class="hidden name"><code>k.Rd</code></div>
+    <div class="hidden name"><code>compute.csa.bounds.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>kernel function</p>
+    <p>Compute bounds on the distribution and quantile of the
+ treatment effect as given in Callaway (2017) under the copula
+ stability assumption and when a first step estimator of the counterfactual
+ distribution of untreated potential outcomes for the treated group is
+ available.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>k</span><span class='op'>(</span><span class='va'>z</span>, h <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>compute.csa.bounds</span><span class='op'>(</span>
+  <span class='va'>formla</span>,
+  <span class='va'>t</span>,
+  <span class='va'>tmin1</span>,
+  <span class='va'>tmin2</span>,
+  <span class='va'>tname</span>,
+  <span class='va'>idname</span>,
+  <span class='va'>data</span>,
+  <span class='va'>delt.seq</span>,
+  <span class='va'>y.seq</span>,
+  <span class='va'>Y0tqteobj</span>,
+  F.y0 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  F.y1 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  h <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xformla <span class='op'>=</span> <span class='op'>~</span><span class='fl'>1</span>,
+  firststep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dr"</span>, <span class='st'>"qr"</span>, <span class='st'>"ll"</span><span class='op'>)</span>,
+  cl <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>z</th>
-      <td><p>evaluate kernel at value z</p></td>
+      <th>formla</th>
+      <td><p>outcomevar ~ treatmentvar</p></td>
+    </tr>
+    <tr>
+      <th>t</th>
+      <td><p>the 3rd period</p></td>
+    </tr>
+    <tr>
+      <th>tmin1</th>
+      <td><p>the 2nd period</p></td>
+    </tr>
+    <tr>
+      <th>tmin2</th>
+      <td><p>the 1st period</p></td>
+    </tr>
+    <tr>
+      <th>tname</th>
+      <td><p>the name of the column containing periods</p></td>
+    </tr>
+    <tr>
+      <th>idname</th>
+      <td><p>the name of the column containing ids</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>a panel data frame</p></td>
+    </tr>
+    <tr>
+      <th>delt.seq</th>
+      <td><p>the possible values to compute bounds on the distribution
+of the treatment effect for</p></td>
+    </tr>
+    <tr>
+      <th>y.seq</th>
+      <td><p>the possible values for y to take</p></td>
+    </tr>
+    <tr>
+      <th>Y0tqteobj</th>
+      <td><p>a previously computed first step estimator of the
+distribution of counterfactual outcomes for the treated group</p></td>
+    </tr>
+    <tr>
+      <th>F.y0</th>
+      <td><p>(optional) pre-computed distribution of counterfactual untreated outcomes for the treated group</p></td>
+    </tr>
+    <tr>
+      <th>F.y1</th>
+      <td><p>(optional) pre-computed distribution of treated outcomes for the treated group</p></td>
     </tr>
     <tr>
       <th>h</th>
-      <td><p>bandwidth</p></td>
+      <td><p>optional bandwidth when using local linear regression</p></td>
+    </tr>
+    <tr>
+      <th>xformla</th>
+      <td><p>a formula for which covariates to use</p></td>
+    </tr>
+    <tr>
+      <th>firststep</th>
+      <td><p>whether to use distribution regression ("dr"),
+quantile regression ("qr"), or local linear distribution regression ("ll")
+for the first step estimation of condtional distributions</p></td>
+    </tr>
+    <tr>
+      <th>cl</th>
+      <td><p>(optional) number of multi-cores to use</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>gaussian kernel</p>
+    <p>csaboundsobj</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

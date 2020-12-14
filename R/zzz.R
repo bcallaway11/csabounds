@@ -1,1 +1,1 @@
-utils::globalVariables(c("group", "treat","attcpo.se","y.seq"))
+utils::globalVariables(c("group", "treat","attcpo.se","y.seq","uci","lci"))

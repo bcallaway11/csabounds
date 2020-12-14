@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # csabounds
 
-The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes -- the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available.  Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption.  More details about the method can be found in Callaway (2017).
+The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes -- the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available.  Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption.  More details about the method can be found in [Callaway (2020)](https://doi.org/10.1016/j.jeconom.2020.02.005).
 
 ## Installation
 
@@ -27,7 +27,7 @@ devtools::install_github("bcallaway11/csabounds")
 
 ## Example
 
-The following is a simplified example of the heterogeneous effects of job displacement considered in Callaway (2017) using data from the 1979 National Longitudinal Study of Youth.
+The following is a simplified example of the heterogeneous effects of job displacement considered in [Callaway (2020)](https://doi.org/10.1016/j.jeconom.2020.02.005) using data from the 1979 National Longitudinal Study of Youth.
 
 A subset of the data is contained in the `displacements` dataset contained in the package.  `delt.seq` contains a vector of values to compute the distribution of the treatment effect for; that is, $F_{Y_{1t}-Y_{0t}|D_t=1}(\delta)$.  `y.seq` contains possible values for outcomes.  
 
@@ -46,7 +46,7 @@ The first step is to compute the counterfactual distribution of untreated potent
  cc$F.treated.tmin2 <- ecdf(subset(displacements, year==2003 & treat==1)$learn)
  cc$F.treated.tmin1 <- ecdf(subset(displacements, year==2007 & treat==1)$learn)
 ```
-Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself.  (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the \textit{joint} distribution of treated and untreated potential outcomes.)  Under the Copula Stability Assumption -- see Callaway (2017) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect.  These are calculated and plotted next.
+Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself.  (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the \textit{joint} distribution of treated and untreated potential outcomes.)  Under the Copula Stability Assumption -- see [Callaway (2020)](https://doi.org/10.1016/j.jeconom.2020.02.005) -- one can construct significantly tighter bounds on the distribution and quantile of the treatment effect.  These are calculated and plotted next.
 ```{r eval=FALSE}
  cb <- csa.bounds(learn ~ treat, 2011, 2007, 2003, "year", "id",
          displacements, delt.seq, y.seq, cc,
