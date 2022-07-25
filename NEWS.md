@@ -1,3 +1,8 @@
+# csabounds 1.1.1
+
+  * removing package from CRAN, will host only on GitHub now
+  * export cia.bounds and csa.bounds functions
+
 # csabounds 1.1.0
 
   * compute bounds when other covariates are available

@@ -162,7 +162,7 @@ u.inner <- function(delt, y.seq, F.y1, F.y0) {
 #'
 #' @description Williamson-Downs bounds inner
 #'
-#' @inheritParams l
+#' @inheritParams l.inner
 #'
 #' @keywords internal
 #' @export
@@ -174,7 +174,7 @@ wd.l.inner <- function(y, delt, Y1t, Y0tqteobj) {
 #'
 #' @description Williamson-Downs lower bound.
 #'
-#' @inheritParams l
+#' @inheritParams l.inner
 #'
 #' @keywords internal
 #' @export
@@ -186,7 +186,7 @@ wd.l <- function(delt, y.seq, Y1t, ddid) {
 #'
 #' @description Williamson-Downs bounds inner
 #'
-#' @inheritParams l
+#' @inheritParams l.inner
 #'
 #' @keywords internal
 #' @export
@@ -199,7 +199,7 @@ wd.u.inner <- function(y, delt, Y1t, ddid) {
 #'
 #' @description Williamson-Downs upper bound
 #'
-#' @inheritParams l
+#' @inheritParams l.inner
 #'
 #' @keywords internal
 #' @export
@@ -496,6 +496,8 @@ simpleBoot <- function(data) {
 #'  cores to use in parallel computation (default is 1)
 #' @param alp significance level for confidence intervals
 #' @param ... whatever extra arguments need to be passed to Y0tmethod
+#'
+#' @export
 csa.bounds <- function(formla,
                        t,
                        tmin1,
@@ -589,18 +591,8 @@ csa.bounds <- function(formla,
                                             y.seq, boot.Y0tqteobj, F.y0=hl.F.y0t, F.y1=hl.F.y1t, h,
                                             xformla, firststep)
 
-            ## second term in hong and li
-            ## csa.boot2 <- compute.csa.bounds(formla, t, tmin1, tmin2, tname,
-            ##                                idname, boot.data, delt.seq,
-            ##                                y.seq, boot.Y0tqteobj, F.y0=hat.F.y0t, F.y1=hat.F.y1t, h,
-            ##                                xformla, firststep)
-
             hl <- list()
-            ## note that these are not actually distributions; just use these to calculate confidence intervals later
-            ## hl$F.l <- (csa.boot1$F.l(delt.seq) - csa.boot2$F.l(delt.seq))/en
-            ## hl$F.u <- (csa.boot1$F.u(delt.seq) - csa.boot2$F.u(delt.seq))/en
-            ## hl$F.wd.l <- (csa.boot1$F.wd.l(delt.seq) - csa.boot2$F.wd.l(delt.seq))/en
-            ## hl$F.wd.u <- (csa.boot1$F.wd.u(delt.seq) - csa.boot2$F.wd.u(delt.seq))/en
+            
             hl$F.l <- (csa.boot1$F.l(delt.seq) - csa.res$F.l(delt.seq))/en
             hl$F.u <- (csa.boot1$F.u(delt.seq) - csa.res$F.u(delt.seq))/en
             hl$F.wd.l <- (csa.boot1$F.wd.l(delt.seq) - csa.res$F.wd.l(delt.seq))/en
@@ -652,23 +644,7 @@ csa.bounds <- function(formla,
         F.wd.u.lower <- BMisc::makeDist(delt.seq, csa.res$F.wd.u(delt.seq) - 
                                    apply(boot.F.wd.u, 2, quantile, (1-alp))/sqrt(n),
                                  rearrange=TRUE, force01=TRUE)
-        # F.l.upper <- BMisc::makeDist(delt.seq, csa.res$F.l(delt.seq) +
-        #                         apply(boot.F.l, 2, quantile, (1-alp))/sqrt(n), rearrange=TRUE)
-        # F.l.lower <- BMisc::makeDist(delt.seq, csa.res$F.l(delt.seq)  + apply(boot.F.l, 2, quantile, alp)/sqrt(n), rearrange=TRUE)
-# 
-#         F.u.upper <- BMisc::makeDist(delt.seq, csa.res$F.u(delt.seq) + apply(boot.F.u, 2, quantile, (1-alp))/sqrt(n), rearrange=TRUE)
-#         F.u.lower <- BMisc::makeDist(delt.seq, csa.res$F.u(delt.seq) + apply(boot.F.u, 2, quantile, alp)/sqrt(n), rearrange=TRUE)
-#         
-#         F.wd.l.upper <- BMisc::makeDist(delt.seq, csa.res$F.wd.l(delt.seq) + apply(boot.F.wd.l, 2, quantile, (1-alp))/sqrt(n), rearrange=TRUE)
-#         F.wd.l.lower <- BMisc::makeDist(delt.seq, csa.res$F.wd.l(delt.seq) + apply(boot.F.wd.l, 2, quantile, alp)/sqrt(n), rearrange=TRUE)
-#         
-#         F.wd.u.upper <- BMisc::makeDist(delt.seq, csa.res$F.wd.u(delt.seq) + apply(boot.F.wd.u, 2, quantile, (1-alp))/sqrt(n), rearrange=TRUE)
-#         F.wd.u.lower <- BMisc::makeDist(delt.seq, csa.res$F.wd.u(delt.seq) + apply(boot.F.wd.u, 2, quantile, alp)/sqrt(n))
-
-
-        ## debugging...
-        ## ppp <- function(i) { plot(delt.seq, boot.F.l[i,]) }
-        ## npl <- function(i) { plot(hl.F.y1t[[i]]); plot(hat.F.y1t[[i]], col="blue", add=T) }
+        
         
         ## add results to object to return
         csa.res$F.u.upper <- F.u.upper
@@ -704,6 +680,8 @@ csa.bounds <- function(formla,
 #' @param link optional argument to pass to \code{distreg} for which link
 #'  function to use when running distribution regressions
 #' @param ... whatever extra arguments need to be passed to Y0tmethod
+#'
+#' @export
 cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL, 
                        firststep=c("dr","qr","ll"),
                        link="logit",

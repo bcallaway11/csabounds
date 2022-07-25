@@ -6,6 +6,9 @@
 \usage{
 wd.u.inner(y, delt, Y1t, ddid)
 }
+\arguments{
+\item{delt}{the value to obtain the DoTT for}
+}
 \description{
 Williamson-Downs bounds inner
 }

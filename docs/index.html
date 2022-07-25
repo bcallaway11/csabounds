@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">csabounds</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -62,48 +58,48 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="csabounds" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#csabounds" class="anchor"></a>csabounds</h1></div>
-<p>The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes – the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available. Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption. More details about the method can be found in <a href="https://doi.org/10.1016/j.jeconom.2020.02.005">Callaway (2020)</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level1">
+<div class="page-header"><h1 id="csabounds">csabounds<a class="anchor" aria-label="anchor" href="#csabounds"></a>
+</h1></div>
+<p>The csabounds package allows the user to obtain tight bounds on distributional treatment effect parameters that depend on the joint distribution of treated and untreated potential outcomes – the joint distribution is not identified under standard identifying assumptions such as selection on observables or even when experimental data is available. Using the package requires three periods of panel data and the results follow under the Copula Stability Assumption. More details about the method can be found in <a href="https://doi.org/10.1016/j.jeconom.2020.02.005" class="external-link">Callaway (2020)</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install csabounds from github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"bcallaway11/csabounds"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"bcallaway11/csabounds"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>The following is a simplified example of the heterogeneous effects of job displacement considered in <a href="https://doi.org/10.1016/j.jeconom.2020.02.005">Callaway (2020)</a> using data from the 1979 National Longitudinal Study of Youth.</p>
-<p>A subset of the data is contained in the <code>displacements</code> dataset contained in the package. <code>delt.seq</code> contains a vector of values to compute the distribution of the treatment effect for; that is, <span class="math inline"><em>F</em><sub><em>Y</em><sub>1<em>t</em></sub> − <em>Y</em><sub>0<em>t</em></sub>|<em>D</em><sub><em>t</em></sub> = 1</sub>(<em>δ</em>)</span>. <code>y.seq</code> contains possible values for outcomes.</p>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>The following is a simplified example of the heterogeneous effects of job displacement considered in <a href="https://doi.org/10.1016/j.jeconom.2020.02.005" class="external-link">Callaway (2020)</a> using data from the 1979 National Longitudinal Study of Youth.</p>
+<p>A subset of the data is contained in the <code>displacements</code> dataset contained in the package. <code>delt.seq</code> contains a vector of values to compute the distribution of the treatment effect for; that is, (F_{Y_{1t}-Y_{0t}|D_t=1}()). <code>y.seq</code> contains possible values for outcomes.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">csabounds</span><span class="op">)</span>
- <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">displacements</span><span class="op">)</span>
- <span class="va">delt.seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">4</span>,length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span>
- <span class="va">y.seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">6.5</span>,<span class="fl">13</span>,length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span></code></pre></div>
-<p>The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, <span class="math inline"><em>F</em><sub><em>Y</em><sub>0<em>t</em></sub>|<em>D</em><sub><em>t</em></sub> = 1</sub></span>. In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the <code>R</code> <code>qte</code> package. The distribution of outcomes for the treated group in periods <span class="math inline"><em>t</em> − 1</span> and <span class="math inline"><em>t</em> − 2</span> also needs to be set and is not done automatically using the <code><a href="https://rdrr.io/pkg/qte/man/CiC.html">qte::CiC</a></code> method.</p>
+<code class="sourceCode R"><span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">csabounds</span><span class="op">)</span></span>
+<span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">displacements</span><span class="op">)</span></span>
+<span> <span class="va">delt.seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">4</span>,length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span></span>
+<span> <span class="va">y.seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">6.5</span>,<span class="fl">13</span>,length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span></span></code></pre></div>
+<p>The first step is to compute the counterfactual distribution of untreated potential outcomes for the treated group, (F_{Y_{0t}|D_t=1}). In this example, I use the Change in Changes method (Athey and Imbens, 2006) which is available in the <code>R</code> <code>qte</code> package. The distribution of outcomes for the treated group in periods (t-1) and (t-2) also needs to be set and is not done automatically using the <code><a href="https://rdrr.io/pkg/qte/man/CiC.html" class="external-link">qte::CiC</a></code> method.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu">qte</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/qte/man/CiC.html">CiC</a></span><span class="op">(</span><span class="va">learn</span> <span class="op">~</span> <span class="va">treat</span>,
-                t<span class="op">=</span><span class="fl">2011</span>, tmin1<span class="op">=</span><span class="fl">2007</span>, tname<span class="op">=</span><span class="st">"year"</span>,
-                idname<span class="op">=</span><span class="st">"id"</span>, panel<span class="op">=</span><span class="cn">TRUE</span>, data<span class="op">=</span><span class="va">displacements</span>,
-                probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">.05</span>,<span class="fl">.95</span>,<span class="fl">.01</span><span class="op">)</span>,se<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; Warning in panelize.data(data, idname, tname, t, tmin1): dropping 266</span>
-<span class="co">#&gt; observations that are not in period: 2011, 2007, ...</span>
-<span class="co">#&gt; Warning in panel.checks(qp): covariates appear to vary over time...</span>
-<span class="co">#&gt;   only conditioning on first period covariates...</span>
-<span class="co">#&gt;   this is recommended practice, but worth noting...</span>
- <span class="va">cc</span><span class="op">$</span><span class="va">F.treated.tmin2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html">ecdf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">displacements</span>, <span class="va">year</span><span class="op">==</span><span class="fl">2003</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">learn</span><span class="op">)</span>
- <span class="va">cc</span><span class="op">$</span><span class="va">F.treated.tmin1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html">ecdf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">displacements</span>, <span class="va">year</span><span class="op">==</span><span class="fl">2007</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">learn</span><span class="op">)</span></code></pre></div>
-<p>Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself. (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the distribution of treated and untreated potential outcomes.) Under the Copula Stability Assumption – see <a href="https://doi.org/10.1016/j.jeconom.2020.02.005">Callaway (2020)</a> – one can construct significantly tighter bounds on the distribution and quantile of the treatment effect. These are calculated and plotted next.</p>
+<code class="sourceCode R"><span> <span class="va">cc</span> <span class="op">&lt;-</span> <span class="fu">qte</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/qte/man/CiC.html" class="external-link">CiC</a></span><span class="op">(</span><span class="va">learn</span> <span class="op">~</span> <span class="va">treat</span>,</span>
+<span>                t<span class="op">=</span><span class="fl">2011</span>, tmin1<span class="op">=</span><span class="fl">2007</span>, tname<span class="op">=</span><span class="st">"year"</span>,</span>
+<span>                idname<span class="op">=</span><span class="st">"id"</span>, panel<span class="op">=</span><span class="cn">TRUE</span>, data<span class="op">=</span><span class="va">displacements</span>,</span>
+<span>                probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">.05</span>,<span class="fl">.95</span>,<span class="fl">.01</span><span class="op">)</span>,se<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in panelize.data(data, idname, tname, t, tmin1): dropping 266</span></span>
+<span><span class="co">#&gt; observations that are not in period: 2011, 2007, ...</span></span>
+<span><span class="co">#&gt; Warning in panel.checks(qp): covariates appear to vary over time...</span></span>
+<span><span class="co">#&gt;   only conditioning on first period covariates...</span></span>
+<span><span class="co">#&gt;   this is recommended practice, but worth noting...</span></span>
+<span> <span class="va">cc</span><span class="op">$</span><span class="va">F.treated.tmin2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html" class="external-link">ecdf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">displacements</span>, <span class="va">year</span><span class="op">==</span><span class="fl">2003</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">learn</span><span class="op">)</span></span>
+<span> <span class="va">cc</span><span class="op">$</span><span class="va">F.treated.tmin1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html" class="external-link">ecdf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">displacements</span>, <span class="va">year</span><span class="op">==</span><span class="fl">2007</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">learn</span><span class="op">)</span></span></code></pre></div>
+<p>Once the counterfactual distribution is avialable, one can run the main method to compute bounds on the distribution and the quantile of the treatment effect itself. (Recall the quantile of the treatment effect (QoTT) is significantly more challenging than the quantile treatment effect (QTT) because it depends on the distribution of treated and untreated potential outcomes.) Under the Copula Stability Assumption – see <a href="https://doi.org/10.1016/j.jeconom.2020.02.005" class="external-link">Callaway (2020)</a> – one can construct significantly tighter bounds on the distribution and quantile of the treatment effect. These are calculated and plotted next.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">cb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/csa.bounds.html">csa.bounds</a></span><span class="op">(</span><span class="va">learn</span> <span class="op">~</span> <span class="va">treat</span>, <span class="fl">2011</span>, <span class="fl">2007</span>, <span class="fl">2003</span>, <span class="st">"year"</span>, <span class="st">"id"</span>,
-         <span class="va">displacements</span>, <span class="va">delt.seq</span>, <span class="va">y.seq</span>, <span class="va">cc</span>,
-         method<span class="op">=</span><span class="st">"level"</span>, cl<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
- <span class="va">cb</span>
- <span class="fu"><a href="reference/ggCSABounds.html">ggCSABounds</a></span><span class="op">(</span><span class="va">cb</span>, wdbounds<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span> <span class="va">cb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/csa.bounds.html">csa.bounds</a></span><span class="op">(</span><span class="va">learn</span> <span class="op">~</span> <span class="va">treat</span>, <span class="fl">2011</span>, <span class="fl">2007</span>, <span class="fl">2003</span>, <span class="st">"year"</span>, <span class="st">"id"</span>,</span>
+<span>         <span class="va">displacements</span>, <span class="va">delt.seq</span>, <span class="va">y.seq</span>, <span class="va">cc</span>,</span>
+<span>         method<span class="op">=</span><span class="st">"level"</span>, cl<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span> <span class="va">cb</span></span>
+<span> <span class="fu"><a href="reference/ggCSABounds.html">ggCSABounds</a></span><span class="op">(</span><span class="va">cb</span>, wdbounds<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png"></p>
 </div>
 </div>
@@ -111,35 +107,48 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=csabounds">https://​cloud.r-project.org/​package=csabounds</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=csabounds" class="external-link">View on CRAN</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing csabounds</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Brantly Callaway <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Brantly Callaway.</p>
+  <p></p>
+<p>Developed by Brantly Callaway.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -147,6 +156,8 @@
 
   
 
+
+  
 
   </body>
 </html>

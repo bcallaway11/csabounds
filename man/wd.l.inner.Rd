@@ -6,6 +6,9 @@
 \usage{
 wd.l.inner(y, delt, Y1t, Y0tqteobj)
 }
+\arguments{
+\item{delt}{the value to obtain the DoTT for}
+}
 \description{
 Williamson-Downs bounds inner
 }

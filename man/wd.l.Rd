@@ -6,6 +6,11 @@
 \usage{
 wd.l(delt, y.seq, Y1t, ddid)
 }
+\arguments{
+\item{delt}{the value to obtain the DoTT for}
+
+\item{y.seq}{possible values of y}
+}
 \description{
 Williamson-Downs lower bound.
 }
