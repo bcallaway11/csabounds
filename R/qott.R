@@ -24,7 +24,7 @@
 F.Y1 <- function(firststep=c("dr","qr","ll"), xformla, data, yvals, tvals, h=NULL, retF=TRUE) {
 
     firststep <- firststep[1]
-    formla <- BMisc::toformula("Y1t", c("Y0tmin1" , BMisc::rhs.vars(xformla)))
+    formla <- BMisc::toformula("Y1t", c("Y0tmin1" , BMisc::rhs_vars(xformla)))
     if (firststep=="dr") {
         dr <- distreg::distreg(formla, data=data, yvals=data$Y1t)
     } else if (firststep=="ll") {
@@ -49,7 +49,7 @@ F.Y1 <- function(firststep=c("dr","qr","ll"), xformla, data, yvals, tvals, h=NUL
 #'  conditional on ytmin1.  This is computed under the copula
 #'  stability assumption.  This function
 #'  is typically computed internally in the \code{csabounds} package but
-#'  is provided here for convenience.  
+#'  is provided here for convenience.
 #'
 #' @inheritParams F.Y1
 #' @param retZ whether or not to return the distribution of the transformed
@@ -65,10 +65,10 @@ F.Y0 <- function(firststep=c("dr","qr","ll"), xformla, data, yvals, tvals, h=NUL
     ## here, some things are hard-coded, in particular, using first step quantile regression...
     n <- nrow(data)
     firststep <- firststep[1]
-    qformla <- BMisc::toformula("y0t", BMisc::rhs.vars(xformla))
+    qformla <- BMisc::toformula("y0t", BMisc::rhs_vars(xformla))
     QR0t <- quantreg::rq(qformla, tau=seq(.01,.99,.01), data=data) ## tau hard-coded...
     QR0tQ <- predict(QR0t, newdata=data, type="Qhat", stepfun=TRUE)
-    qformla <- BMisc::toformula("Y0tmin1", BMisc::rhs.vars(xformla))
+    qformla <- BMisc::toformula("Y0tmin1", BMisc::rhs_vars(xformla))
     QR0tmin1 <- quantreg::rq(qformla, tau=seq(.01,.99,.01), data=data)
     QR0tmin1F <- predict(QR0tmin1, newdata=data, type="Fhat", stepfun=TRUE)
     ## "adjusted" outcome in period t
@@ -81,7 +81,7 @@ F.Y0 <- function(firststep=c("dr","qr","ll"), xformla, data, yvals, tvals, h=NUL
 
     dd <- data.frame(Zt=Zt,Ztmin1=Ztmin1)
     dd <- cbind.data.frame(dd, data)
-    formla <- BMisc::toformula("Zt", c("Ztmin1", BMisc::rhs.vars(xformla)))
+    formla <- BMisc::toformula("Zt", c("Ztmin1", BMisc::rhs_vars(xformla)))
     if (firststep=="dr") {
         dr <- distreg::distreg(formla, data=dd, yvals=Zt)
     } else if (firststep=="ll") {
@@ -210,7 +210,7 @@ wd.u <- function(delt, y.seq, Y1t, ddid) {
 
 
 setupTreatedData <- function(data, Y0tqteobj, formla, xformla, idname, tname, t, tmin1, tmin2) {
-    form  <- BMisc::toformula(BMisc::lhs.vars(formla),c(BMisc::rhs.vars(formla),BMisc::rhs.vars(xformla)))
+    form  <- BMisc::toformula(BMisc::lhs_vars(formla),c(BMisc::rhs_vars(formla),BMisc::rhs_vars(xformla)))
     ##form <- as.formula(formla)
     dta <- model.frame(terms(form,data=data),data=data)
     colnames(dta) <- c("y","treat",colnames(dta)[-c(1,2)]) ## TODO: update when including covariates
@@ -321,8 +321,8 @@ compute.csa.bounds <- function(formla, t, tmin1, tmin2, tname, idname,
     wd.l.vec <- vapply(delt.seq, wd.l, 1.0, y.seq, dta1$Y1t, Y0tqteobj)
     wd.u.vec <- vapply(delt.seq, wd.u, 1.0, y.seq, dta1$Y1t, Y0tqteobj)
 
-    F.wd.l <- BMisc::makeDist(delt.seq, wd.l.vec)
-    F.wd.u <- BMisc::makeDist(delt.seq, wd.u.vec)
+    F.wd.l <- BMisc::make_dist(delt.seq, wd.l.vec)
+    F.wd.u <- BMisc::make_dist(delt.seq, wd.u.vec)
 
     out$F.wd.l <- F.wd.l
     out$F.wd.u <- F.wd.u
@@ -349,8 +349,8 @@ compute.DoTTBounds <- function(delt.seq, y.seq, F.y1, F.y0) {
     u.vec <- sapply(delt.seq, u.inner, y.seq, F.y1, F.y0)
 
     ## turn lower and upper bounds into distributions
-    F.l <- BMisc::makeDist(delt.seq, l.vec)
-    F.u <- BMisc::makeDist(delt.seq, u.vec)
+    F.l <- BMisc::make_dist(delt.seq, l.vec)
+    F.u <- BMisc::make_dist(delt.seq, u.vec)
 
     return(list(F.l=F.l, F.u=F.u))
 }
@@ -381,7 +381,7 @@ simpleBoot <- function(data) {
 ## #'  specified in ... that returns a list of length n_1 of distribution functions for Y1
 ## #' @param simpleBoot A method to bootstrap the data that can be called with data=data and other
 ## #'  parameters specified in ...; the default is simpleBoot which should work for cross sectional
-## #'  data but is going to fail in other cases; in the case with panel data, one can use BMisc::blockBootSample
+## #'  data but is going to fail in other cases; in the case with panel data, one can use BMisc::block_boot_sample
 ## #'  but also user-supplied functions can be used here
 ## #' @inheritParams compute.DoTTBounds
 ## #'
@@ -465,7 +465,7 @@ simpleBoot <- function(data) {
 #'  when panel data is available and under the Copula Stability Assumption.
 #'  The function can also compute tighter bounds when other covariates are
 #'  available.
-#' 
+#'
 #' @param formla A formula of the form: outcome ~ treatment
 #' @param t the value for the third time period
 #' @param tmin1 the value of the second time period
@@ -566,7 +566,7 @@ csa.bounds <- function(formla,
         dr1 <- F.Y1(firststep, xformla, dta1, yvals=y.seq, tvals=dta1$Y0tmin1, h=h, retF=FALSE)
         dr0 <- F.Y0(firststep, xformla, dta1, yvals=y.seq, tvals=dta1$Y0tmin1, h=h, retF=FALSE)
         boot.out  <- pbapply::pblapply(1:bootiters, function(b) {
-            boot.data <- BMisc::blockBootSample(data, idname)
+            boot.data <- BMisc::block_boot_sample(data, idname)
             ##boot.data <- data
             boot.Y0tqteobj <- Y0tmethod(formla=formla, xformla=xformla,
                                         t=t, tmin1=tmin1, tname=tname,
@@ -578,13 +578,13 @@ csa.bounds <- function(formla,
             hat.F.y0t <- distreg::Fycondx(dr0$dr, dr0$yvals, xdf=boot.F.y0t.inner$xdf)
             hat.F.y1t <- distreg::Fycondx(dr1$dr, dr0$yvals, xdf=boot.dta1)
 
-            hl.F.y0t <- lapply(1:nrow(boot.dta1), function(i) BMisc::makeDist(y.seq, hat.F.y0t[[i]](y.seq) - en*sqrt(n)*(hat.F.y0t[[i]](y.seq) - boot.F.y0t[[i]](y.seq)), rearrange=TRUE, force01=TRUE, method="linear"))
-            hl.F.y1t <- lapply(1:nrow(boot.dta1), function(i) BMisc::makeDist(y.seq, hat.F.y1t[[i]](y.seq) - en*sqrt(n)*(hat.F.y1t[[i]](y.seq) - boot.F.y1t[[i]](y.seq)), rearrange=TRUE, force01=TRUE, method="linear"))
+            hl.F.y0t <- lapply(1:nrow(boot.dta1), function(i) BMisc::make_dist(y.seq, hat.F.y0t[[i]](y.seq) - en*sqrt(n)*(hat.F.y0t[[i]](y.seq) - boot.F.y0t[[i]](y.seq)), rearrange=TRUE, force01=TRUE, method="linear"))
+            hl.F.y1t <- lapply(1:nrow(boot.dta1), function(i) BMisc::make_dist(y.seq, hat.F.y1t[[i]](y.seq) - en*sqrt(n)*(hat.F.y1t[[i]](y.seq) - boot.F.y1t[[i]](y.seq)), rearrange=TRUE, force01=TRUE, method="linear"))
 
 
             ## there are slight differences due to interpolations...
             ##sapply(1:nrow(boot.dta1), function(i) all( hl.F.y0t[[i]](y.seq)== F.y0[[i]](y.seq+.5)))
-            
+
             ## first term in hong and li
             csa.boot1 <- compute.csa.bounds(formla, t, tmin1, tmin2, tname,
                                             idname, boot.data, delt.seq,
@@ -592,60 +592,60 @@ csa.bounds <- function(formla,
                                             xformla, firststep)
 
             hl <- list()
-            
+
             hl$F.l <- (csa.boot1$F.l(delt.seq) - csa.res$F.l(delt.seq))/en
             hl$F.u <- (csa.boot1$F.u(delt.seq) - csa.res$F.u(delt.seq))/en
             hl$F.wd.l <- (csa.boot1$F.wd.l(delt.seq) - csa.res$F.wd.l(delt.seq))/en
             hl$F.wd.u <- (csa.boot1$F.wd.u(delt.seq) - csa.res$F.wd.u(delt.seq))/en
-            
+
             hl
-                
+
         }, cl=cl)
 
-        
+
         ## get pointwise confidence intervals for DoTT and QoTT
         ## CSA lower
         boot.F.l <- t(sapply(1:bootiters, function(b) {
             boot.out[[b]]$F.l
         }))
-        F.l.upper <- BMisc::makeDist(delt.seq, csa.res$F.l(delt.seq) - 
+        F.l.upper <- BMisc::make_dist(delt.seq, csa.res$F.l(delt.seq) -
                                 apply(boot.F.l, 2, quantile, alp)/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
-        F.l.lower <- BMisc::makeDist(delt.seq, csa.res$F.l(delt.seq) - 
+        F.l.lower <- BMisc::make_dist(delt.seq, csa.res$F.l(delt.seq) -
                                 apply(boot.F.l, 2, quantile, (1-alp))/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
         ## CSA upper
         boot.F.u <- t(sapply(1:bootiters, function(b) {
           boot.out[[b]]$F.u
         }))
-        F.u.upper <- BMisc::makeDist(delt.seq, csa.res$F.u(delt.seq) - 
+        F.u.upper <- BMisc::make_dist(delt.seq, csa.res$F.u(delt.seq) -
                                 apply(boot.F.u, 2, quantile, alp)/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
-        F.u.lower <- BMisc::makeDist(delt.seq, csa.res$F.u(delt.seq) - 
+        F.u.lower <- BMisc::make_dist(delt.seq, csa.res$F.u(delt.seq) -
                                 apply(boot.F.u, 2, quantile, (1-alp))/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
         ## WD lower
         boot.F.wd.l <- t(sapply(1:bootiters, function(b) {
           boot.out[[b]]$F.wd.l
         }))
-        F.wd.l.upper <- BMisc::makeDist(delt.seq, csa.res$F.wd.l(delt.seq) -
+        F.wd.l.upper <- BMisc::make_dist(delt.seq, csa.res$F.wd.l(delt.seq) -
                                    apply(boot.F.wd.l, 2, quantile, alp)/sqrt(n),
                                  rearrange=TRUE, force01=TRUE)
-        F.wd.l.lower <- BMisc::makeDist(delt.seq, csa.res$F.wd.l(delt.seq) - 
+        F.wd.l.lower <- BMisc::make_dist(delt.seq, csa.res$F.wd.l(delt.seq) -
                                    apply(boot.F.wd.l, 2, quantile, (1-alp))/sqrt(n),
                                  rearrange=TRUE,force01=TRUE)
         ## WD upper
         boot.F.wd.u <- t(sapply(1:bootiters, function(b) {
           boot.out[[b]]$F.wd.u
         }))
-        F.wd.u.upper <- BMisc::makeDist(delt.seq, csa.res$F.wd.u(delt.seq) - 
+        F.wd.u.upper <- BMisc::make_dist(delt.seq, csa.res$F.wd.u(delt.seq) -
                                    apply(boot.F.wd.u, 2, quantile, alp)/sqrt(n),
                                  rearrange=TRUE, force01=TRUE)
-        F.wd.u.lower <- BMisc::makeDist(delt.seq, csa.res$F.wd.u(delt.seq) - 
+        F.wd.u.lower <- BMisc::make_dist(delt.seq, csa.res$F.wd.u(delt.seq) -
                                    apply(boot.F.wd.u, 2, quantile, (1-alp))/sqrt(n),
                                  rearrange=TRUE, force01=TRUE)
-        
-        
+
+
         ## add results to object to return
         csa.res$F.u.upper <- F.u.upper
         csa.res$F.u.lower <- F.u.lower
@@ -682,7 +682,7 @@ csa.bounds <- function(formla,
 #' @param ... whatever extra arguments need to be passed to Y0tmethod
 #'
 #' @export
-cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL, 
+cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
                        firststep=c("dr","qr","ll"),
                        link="logit",
                        se=FALSE, bootiters=100,
@@ -694,19 +694,19 @@ cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
     colnames(dta) <- c("y","treat") ## TODO: update when including covariates
     dta <- cbind.data.frame(dta, model.frame(xformla, data=data))
     dta1 <- subset(dta, treat==1)
-    dta0 <- subset(dta, treat==0)                            
+    dta0 <- subset(dta, treat==0)
     if (is.null(y.seq)) y.seq <- sort(unique(dta1$y)) ## this is going to get "on the treated" results
-    
-    
+
+
     ## compute conditional distributions
-    dformla <- BMisc::toformula("y", BMisc::rhs.vars(xformla))
+    dformla <- BMisc::toformula("y", BMisc::rhs_vars(xformla))
     xdf <- dta1 ## (implies we get qott, etc. rather than qote)
     if (firststep=="dr") {
         dr1 <- distreg::distreg(dformla, data=dta1, yvals=y.seq,
                                       link=link)
         dr0 <- distreg::distreg(dformla, data=dta0, yvals=y.seq,
                                       link=link)
-        
+
     } else {
         dr1 <- quantreg::rq(dformla, data=dta1, tau=seq(.01,.99,.01))
         dr0 <- quantreg::rq(dformla, data=dta0, tau=seq(.01,.99,.01))
@@ -733,7 +733,7 @@ cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
             ## setup bootstrap data
             boot.data <- simpleBoot(dta)
             boot.dta1 <- subset(boot.data, treat==1)
-            boot.dta0 <- subset(boot.data, treat==0)                            
+            boot.dta0 <- subset(boot.data, treat==0)
 
             ## roughly follow same steps as before, combining with Hong and Li
             ## compute conditional distributions
@@ -741,7 +741,7 @@ cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
             if (firststep=="dr") {
                 boot.dr1 <- distreg::distreg(dformla, data=boot.dta1, yvals=y.seq, link=link)
                 boot.dr0 <- distreg::distreg(dformla, data=boot.dta0, yvals=y.seq, link=link)
-                
+
             } else {
                 boot.dr1 <- quantreg::rq(dformla, data=boot.dta1, tau=seq(.01,.99,.01))
                 boot.dr0 <- quantreg::rq(dformla, data=boot.dta0, tau=seq(.01,.99,.01))
@@ -752,11 +752,11 @@ cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
             hat.F.y0 <- distreg::Fycondx(dr0, y.seq, xdf=boot.xdf)
             hat.F.y1 <- distreg::Fycondx(dr1, y.seq, xdf=boot.xdf)
 
-            hl.F.y0 <- lapply(1:nrow(boot.dta1), function(i) BMisc::makeDist(y.seq, hat.F.y0[[i]](y.seq) - en*sqrt(n)*(hat.F.y0[[i]](y.seq) - boot.F.y0[[i]](y.seq)), rearrange=TRUE, force01=TRUE))
-            hl.F.y1 <- lapply(1:nrow(boot.dta1), function(i) BMisc::makeDist(y.seq, hat.F.y1[[i]](y.seq) - en*sqrt(n)*(hat.F.y1[[i]](y.seq) - boot.F.y1[[i]](y.seq)), rearrange=TRUE, force01=TRUE))
+            hl.F.y0 <- lapply(1:nrow(boot.dta1), function(i) BMisc::make_dist(y.seq, hat.F.y0[[i]](y.seq) - en*sqrt(n)*(hat.F.y0[[i]](y.seq) - boot.F.y0[[i]](y.seq)), rearrange=TRUE, force01=TRUE))
+            hl.F.y1 <- lapply(1:nrow(boot.dta1), function(i) BMisc::make_dist(y.seq, hat.F.y1[[i]](y.seq) - en*sqrt(n)*(hat.F.y1[[i]](y.seq) - boot.F.y1[[i]](y.seq)), rearrange=TRUE, force01=TRUE))
 
             cia.boot <- compute.DoTTBounds(delt.seq, y.seq, F.y1=hl.F.y1, F.y0=hl.F.y0)
-            
+
             hl <- list()
             ## note that these are not actually distributions; just use these to calculate confidence intervals later
             ## hl$F.l <- (csa.boot1$F.l(delt.seq) - csa.boot2$F.l(delt.seq))/en
@@ -765,51 +765,51 @@ cia.bounds <- function(formla, xformla=~1, data, delt.seq, y.seq=NULL,
             ## hl$F.wd.u <- (csa.boot1$F.wd.u(delt.seq) - csa.boot2$F.wd.u(delt.seq))/en
             hl$F.l <- (cia.boot$F.l(delt.seq) - cia.res$F.l(delt.seq))/en
             hl$F.u <- (cia.boot$F.u(delt.seq) - cia.res$F.u(delt.seq))/en
-            
+
             hl
-            
+
         }, cl=cl)
-        
+
         boot.F.l <- t(sapply(1:bootiters, function(b) {
           boot.out[[b]]$F.l
         }))
-        F.l.upper <- BMisc::makeDist(delt.seq, cia.res$F.l(delt.seq) - 
+        F.l.upper <- BMisc::make_dist(delt.seq, cia.res$F.l(delt.seq) -
                                 apply(boot.F.l, 2, quantile, alp)/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
-        F.l.lower <- BMisc::makeDist(delt.seq, cia.res$F.l(delt.seq) - 
+        F.l.lower <- BMisc::make_dist(delt.seq, cia.res$F.l(delt.seq) -
                                 apply(boot.F.l, 2, quantile, (1-alp))/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
         ## CSA upper
         boot.F.u <- t(sapply(1:bootiters, function(b) {
           boot.out[[b]]$F.u
         }))
-        F.u.upper <- BMisc::makeDist(delt.seq, cia.res$F.u(delt.seq) - 
+        F.u.upper <- BMisc::make_dist(delt.seq, cia.res$F.u(delt.seq) -
                                 apply(boot.F.u, 2, quantile, alp)/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
-        F.u.lower <- BMisc::makeDist(delt.seq, cia.res$F.u(delt.seq) - 
+        F.u.lower <- BMisc::make_dist(delt.seq, cia.res$F.u(delt.seq) -
                                 apply(boot.F.u, 2, quantile, (1-alp))/sqrt(n),
                               rearrange = TRUE, force01 = TRUE)
         # ## WD lower
         # boot.F.wd.l <- t(sapply(1:bootiters, function(b) {
         #   boot.out[[b]]$F.wd.l
         # }))
-        # F.wd.l.upper <- BMisc::makeDist(delt.seq, cia.res$F.wd.l(delt.seq) -
+        # F.wd.l.upper <- BMisc::make_dist(delt.seq, cia.res$F.wd.l(delt.seq) -
         #                            apply(boot.F.wd.l, 2, quantile, alp)/sqrt(n),
         #                          rearrange=TRUE, force01=TRUE)
-        # F.wd.l.lower <- BMisc::makeDist(delt.seq, cia.res$F.wd.l(delt.seq) - 
+        # F.wd.l.lower <- BMisc::make_dist(delt.seq, cia.res$F.wd.l(delt.seq) -
         #                            apply(boot.F.wd.l, 2, quantile, (1-alp))/sqrt(n),
         #                          rearrange=TRUE,force01=TRUE)
         # ## WD upper
         # boot.F.wd.u <- t(sapply(1:bootiters, function(b) {
         #   boot.out[[b]]$F.wd.u
         # }))
-        # F.wd.u.upper <- BMisc::makeDist(delt.seq, cia.res$F.wd.u(delt.seq) - 
+        # F.wd.u.upper <- BMisc::make_dist(delt.seq, cia.res$F.wd.u(delt.seq) -
         #                            apply(boot.F.wd.u, 2, quantile, alp)/sqrt(n),
         #                          rearrange=TRUE, force01=TRUE)
-        # F.wd.u.lower <- BMisc::makeDist(delt.seq, cia.res$F.wd.u(delt.seq) - 
+        # F.wd.u.lower <- BMisc::make_dist(delt.seq, cia.res$F.wd.u(delt.seq) -
         #                            apply(boot.F.wd.u, 2, quantile, (1-alp))/sqrt(n),
         #                          rearrange=TRUE, force01=TRUE)
-        
+
         ## add results to object to return
         cia.res$F.u.upper <- F.u.upper
         cia.res$F.u.lower <- F.u.lower
@@ -890,7 +890,7 @@ ggCSABounds <- function(csaboundsobj, tau=seq(.05,.95,.05),
         geom_line(aes(x=tau, y=ql, color=factor(group)), size=1) +
         scale_x_continuous(limits=c(0,1)) +
         theme_bw() +
-        ylab("QoTT") + 
+        ylab("QoTT") +
         theme(legend.title=element_blank())##%,
               ##legend.position="top",
     ##legend.direction="horizontal")
@@ -902,7 +902,7 @@ ggCSABounds <- function(csaboundsobj, tau=seq(.05,.95,.05),
     if (!legend) {
         p <- p + theme(legend.position="none")
     }
-    
+
     ## add confidence intervals, if they are provided
     if (plotSE) {
         if (!is.null(c$F.l.upper)) {
